@@ -4,11 +4,11 @@ fn main() {
     let x : i32 = 5;
 
     if x == 5 {
-       print!("X is five!");
+       print!("X is five!\n");
 
 
     }
     else {
-        print!("X is not five!!!!!");
+        print!("X is not five!!!!!\n");
     }
 }
