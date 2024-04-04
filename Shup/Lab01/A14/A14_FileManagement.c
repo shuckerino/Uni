@@ -76,7 +76,7 @@ int main(int argc, char **argv) {
     fprintf(output_file, "%s", names[i]);
     free(names[i]);
   }
-  // fclose(input_file); // throws "double free or corruption" error
+  //fclose(input_file); // throws "double free or corruption" error
   fclose(output_file);
   free(names);
 
