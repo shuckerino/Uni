@@ -1,9 +1,35 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+
+
+struct node {
+    char* data;
+    struct node* prev;
+    struct node* next;
+};
+
+void insertNodeAtEnd(struct node **head_node, char* name){
+    
+    // allocate memory for new node
+    struct node* new_node = (struct node*)malloc(sizeof(struct node));
+
+    // assign data (name)
+    new_node->data = name;
+
+    // assign next node to NULL, because the inserted node is at the end of the list
+    new_node->next = NULL;
+
+    // assign prev node to the head_node
+    new_node->prev = *head_node;
+
+    // update 
+    
+
+}
+
 int main(int argc, char *argv[]){
 
-    char* all_names[argc];
 
     if (argc != 2){
 	    printf("Invalid CLI arguments...Please only specify one argument with the number of parameters that should be read in!\n");
@@ -14,8 +40,8 @@ int main(int argc, char *argv[]){
 
     for (int i=0; i < num_args; i++){
 	    // allocate memory for pointers
-	    char buffer[15];
-	    printf("Enter %d. parameter: ", i+1);
+	    char buffer[32];
+	    printf("Enter %d. name: ", i+1);
 	    fflush(stdout);
 
 	    // read input

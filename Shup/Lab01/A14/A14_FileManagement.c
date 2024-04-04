@@ -9,19 +9,23 @@ umgekehrter Reihenfolge in eine andere ASCII-Datei mit Namen
 #define INIT_CAPACITY 10
 
 int main(int argc, char **argv) {
-
+  
+  // get the input and output file name from the command line arguments (assuming first input, then output)
   char *input_filename = argv[1];
   char *output_filename = argv[2];
 
+  // check if user passed command line arguments
   if (!input_filename || !output_filename) {
     printf("You need to specify the input filename as the first and the output "
            "filename as the second argument!\n");
     return -1;
   }
-
+  
+  // get filestreams of input and output files
   FILE *input_file = fopen(input_filename, "r");
   FILE *output_file = fopen(output_filename, "w");
 
+  // check if files could be read
   if (!input_file) {
     printf("Could not read input filename %s\n", input_filename);
     return -1;
@@ -33,7 +37,7 @@ int main(int argc, char **argv) {
   }
 
   // read and write data
-  char **names = (char **)malloc(INIT_CAPACITY * sizeof(char));
+  char **names = (char **)malloc(INIT_CAPACITY * sizeof(char*));
   char line[128];
   int line_count = 0;
   int current_capacity = INIT_CAPACITY;
@@ -62,7 +66,7 @@ int main(int argc, char **argv) {
     line_count++;
   }
 
-  // print to stdout
+  // print to stdout (optional for debugging)
   int count = 1;
   for (int i = line_count - 1; i >= 0; i--) {
     printf("%d. Name is: %s", count,
@@ -76,7 +80,9 @@ int main(int argc, char **argv) {
     fprintf(output_file, "%s", names[i]);
     free(names[i]);
   }
-  //fclose(input_file); // throws "double free or corruption" error
+
+  // close files and free memory
+  fclose(input_file);
   fclose(output_file);
   free(names);
 

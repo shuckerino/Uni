@@ -6,9 +6,9 @@ int main(int argc, char *argv[]){
         printf("There were no arguments passed! This program is only for displaying CL-Arguments, so please give me some arguments!!!\n");
         return 0;
     }
+    
     for (int i=1; i < argc; i++){
-        printf("%d. Aufrufparameter: %s", i, argv[i]);
-        printf("\n");
+        printf("%d. Aufrufparameter: %s\n", i, argv[i]);
     }
 
     return 0;
