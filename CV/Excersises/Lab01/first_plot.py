@@ -8,7 +8,7 @@ data = np.array([[1,6],
 time = data[:, 0]
 speed = data[:, 1]
 
-fig = plt.figure(figsize = (20,20))
+fig = plt.figure(figsize = (5,5))
 plt.plot(time,speed, "r-", label="Function of car velocity over time")
 
 # Label the plot
