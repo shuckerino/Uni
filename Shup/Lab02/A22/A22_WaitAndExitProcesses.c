@@ -30,6 +30,7 @@ Untersuchen und vergleichen Sie die Endestatuswerte der Kindprozesse
 #include <stdlib.h>
 #include <unistd.h>
 #include <signal.h>
+#include <sys/wait.h>
 
 int main(int argc, char *argv[])
 {
@@ -42,21 +43,23 @@ int main(int argc, char *argv[])
 
     // output PID and first CL-Argument
     printf("I am the father process with PID %d\n", getpid());
-    printf("The first argument is %s", argv[1]);
+    printf("The first argument is %s\n", argv[1]);
 
     int child_pid_1 = fork();
 
     if (child_pid_1 < 0)
     {
-        printf("Creation of child process 1 was unsuccessful, aborting execution...");
+        printf("Creation of child process 1 was unsuccessful, aborting execution...\n");
         return EXIT_FAILURE;
     }
     else if (child_pid_1 == 0)
     { // code for first child process
+        
+        printf("I am the 1. child process with PID %d\n", getpid());
+        printf("The second argument is %s\n", argv[2]);
+
         while (1)
         {
-            printf("I am the 1. child process with PID %d\n", getpid());
-            printf("The second argument is %s\n", argv[2]);
             sleep(1);
         }
     }
@@ -66,15 +69,15 @@ int main(int argc, char *argv[])
 
         if (child_pid_2 < 0)
         {
-            printf("Creation of child process 2 was unsuccessful, aborting execution");
+            printf("Creation of child process 2 was unsuccessful, aborting execution\n");
             return EXIT_FAILURE;
         }
         else if (child_pid_2 == 0)
         { // code for second child process
+            printf("I am the 2. child process with PID %d\n", getpid());
+            printf("The third argument is %s\n", argv[3]);
             while (1)
             {
-                printf("I am the 2. child process with PID %d\n", getpid());
-                printf("The third argument is %s\n", argv[3]);
                 sleep(1);
             }
         }
@@ -84,7 +87,7 @@ int main(int argc, char *argv[])
 
             if (child_pid_3 < 0)
             {
-                printf("Creation of child process 3 was unsuccessful, aborting execution");
+                printf("Creation of child process 3 was unsuccessful, aborting execution\n");
                 return EXIT_FAILURE;
             }
             else if (child_pid_3 == 0)
@@ -102,9 +105,20 @@ int main(int argc, char *argv[])
                 kill(child_pid_1, SIGTERM);
                 kill(child_pid_2, SIGKILL);
                 kill(child_pid_3, SIGKILL);
+               
+                // get exit status of all child processes
+                int status_child_process_1 = wait(&child_pid_1);
+                int status_child_process_2 = wait(&child_pid_2);
+                int status_child_process_3 = wait(&child_pid_3);
 
-                // get status of child processes
-                waitpid(child_pid_1, &status);
+                // printf("Exit status of process 1: %d\n", status_child_process_1);
+                // printf("Exit status of process 2: %d\n", status_child_process_2);
+                // printf("Exit status of process 3: %d\n", status_child_process_3);
+
+
+                printf("Exit status of process 1: %d\n", WEXITSTATUS(status_child_process_1));
+                printf("Exit status of process 2: %d\n", WEXITSTATUS(status_child_process_2));
+                printf("Exit status of process 3: %d\n", WEXITSTATUS(status_child_process_3));
 
                 return EXIT_SUCCESS;
             }
