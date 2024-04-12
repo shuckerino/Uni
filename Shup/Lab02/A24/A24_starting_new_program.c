@@ -6,8 +6,8 @@
 #include <sys/wait.h>
 #include <errno.h>
 
-int main(){
-
+int main(int argc, char* argv[]){
+	
 	int child_pid = fork();
 
 	if (child_pid < 0){
@@ -16,15 +16,20 @@ int main(){
 	}
 	else if (child_pid == 0){ // code for child process
 		
-		execl("P-neu", "P-neu", NULL);
+		execv("/home/rino/Desktop/Uni/Shup/Lab02/A24/P-neu", argv);
 
 		// check for errors
 		printf("Fehlernummer ist %d\n", errno);
+		perror("Fehlermeldung");
+		// printf("Fehlermeldung in Klartext: %s", perror(("Fehlermeldung")))
 		printf("Der Aufruf des Programms P-Neu ist fehlgeschlagen...\n");
 
 	}
 	else{ // code for parent process
-		wait();
+		int status;
+		wait(&status);
+
+		printf("Exit status of child process with PID %d is %d\n", child_pid , WEXITSTATUS(status));
 
 	}
 
