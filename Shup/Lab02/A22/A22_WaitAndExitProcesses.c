@@ -107,17 +107,17 @@ int main(int argc, char *argv[])
                 kill(child_pid_3, SIGKILL);
                
                 int exit_status;
+                
                 // get exit status of all child processes
                 wait(&exit_status);
-                printf("Exit status of one of the children: %d\n", WEXITSTATUS(exit_status));
+                printf("Normal exit status of one of the children: %d\n", exit_status);
+                printf("Translated exit status of one of the children: %d\n", WEXITSTATUS(exit_status));
                 wait(&exit_status);
-                printf("Exit status of one of the children: %d\n", WEXITSTATUS(exit_status));
+                printf("Normal exit status of one of the children: %d\n", exit_status);
+                printf("Translated exit status of one of the children: %d\n", WEXITSTATUS(exit_status));
                 wait(&exit_status);
-                printf("Exit status of one of the children: %d\n", WEXITSTATUS(exit_status));
-
-                // printf("Exit status of process 1: %d\n", WEXITSTATUS(status_child_process_1));
-                // printf("Exit status of process 2: %d\n", WEXITSTATUS(status_child_process_2));
-                // printf("Exit status of process 3: %d\n", WEXITSTATUS(status_child_process_3));
+                printf("Normal exit status of one of the children: %d\n", exit_status);
+                printf("Translated exit status of one of the children: %d\n", WEXITSTATUS(exit_status));
 
                 return EXIT_SUCCESS;
             }

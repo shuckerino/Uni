@@ -8,6 +8,11 @@
 
 int main(int argc, char* argv[]){
 	
+	if (argc < 2){
+		printf("Please pass some arguments to pass two the new process...\n");
+		return -1;
+	}
+
 	int child_pid = fork();
 
 	if (child_pid < 0){
