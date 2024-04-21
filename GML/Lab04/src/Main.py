@@ -22,7 +22,7 @@ if __name__ == "__main__":
     weights = np.array([0.1, 0.1])
     normal_perceptron = Perceptron.Perceptron(weights, 0.1)
     
-    # classify
+    # classify and print
     for instance in validation_set:
         res = normal_perceptron.classify(instance.values)
         print("Classification result is {0}".format(res))
