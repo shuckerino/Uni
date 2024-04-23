@@ -5,7 +5,7 @@ class Instance:
 
     def __init__(self, values : List[Any], value_cols: List[int], clazz_col: int, clazz_one: Any):
         
-        locale.setlocale(locale.LC_NUMERIC, 'de_DE.utf8')  # German locale for number format
+        locale.setlocale(locale.LC_NUMERIC, 'de_DE.UTF-8')  # German locale for number format
         self.values = []
         for i in value_cols:
             o = values[i]
