@@ -38,3 +38,10 @@ res = np.cross(l1,l2)
 print("Solution for g) is {}".format(res))
 
 print("Last result is {}".format(np.dot(np.array([-400, 1200, -880000]), np.array([1046, 1282, 1]))))
+
+p10 = np.array([-40, -370, 501000])
+p11 = np.array([-40, -370, 112500])
+
+
+
+print(np.cross(p10, p11))

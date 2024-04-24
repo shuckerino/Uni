@@ -19,14 +19,16 @@ Die Nutzung der Systemfunktion system() ist VERBOTEN!
 
 #include <linux/limits.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
+#include <sys/wait.h>
 
 const int MAX_USER_INPUT = 64;
 
 int main(int argc, char* argv[]){
 	
-	// output current working directory
+	// fetch current working directory
 	char cwd_buffer[PATH_MAX];
 	if (getcwd(cwd_buffer, sizeof(cwd_buffer)) == NULL){
 		printf("Could not get current working directory, therefore aborting execution...\n");
@@ -34,7 +36,7 @@ int main(int argc, char* argv[]){
 	}
 
 	while (1) {
-		
+		// print current working directory
 		printf("%s : ", cwd_buffer);
 		char user_input[MAX_USER_INPUT];
 
@@ -42,7 +44,6 @@ int main(int argc, char* argv[]){
 		
 		// format user input
 		user_input[strcspn(user_input, "\n")] = '\0'; // remove trailing new line
-		char
 		
 		// check if user wants to cancel with "schluss"
 		if (strcmp(user_input, "schluss") == 0){
@@ -58,13 +59,42 @@ int main(int argc, char* argv[]){
 			return -1;
 		}
 		else if (child_pid == 0){ // code for child process
-			execv(user_input, )
+			printf("I am the child and the user input is %s\n", user_input);
+			char* full_path = malloc(128 * sizeof(char));
+			
+			// if no explicit path, we need to fetch the path variable and look for program in these paths
+			if (user_input[0] != '/' && user_input[0] != '.'){
+				char* path_var = getenv("PATH");
+				if (path_var == NULL){
+					printf("The path variable could not be fetched, aborting program...\n");
+					return -1;
+				}
+
+				char* path_part = strtok(path_var, ":"); // split path variable into paths 
+				while (path_part != NULL) {
+					printf("Token: %s\n", path_part);
+					full_path = strcat(path_part, user_input);
+					// check if path exists
+					if (access(full_path, X_OK) == 0){ // X_OK to check if it is executable
+						printf("Path in Path variable found, right path is %s", path_part);
+						break;
+
+					}
+					path_part = strtok(NULL, ":");  // continue to get the next token
+				    }
+
+			}
+			printf("The final path to be executed is: %s", full_path);
+			execv(full_path, argv);
+
+			perror("Error when executing child program...\n");
 		}
 		else{ // code for parent process
+			int status;
+			wait(&status);
 
+			printf("Child process exited with status %d\n", status);
 		}
-
-		printf("User input is : %s\n", user_input);
 	}
 
 	return 0;
