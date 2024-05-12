@@ -1,0 +1,25 @@
+Autor: Lukas Scheler
+Shell und Prozesse SS 2023
+Blatt 2: Prozesse unter Linux
+Aufgabe 23
+
+Vorbedingung:
+Das aktuelle Arbeitsverzeichnis ist:
+blatt2/a23
+
+Generieranleitung:
+1. Generieren des ausfuehrbaren Programms mit:
+gcc -o a23 a23.c
+
+Bedienungsanleitung:
+1. Start des ausfuehrbaren Programms mit:
+./a23
+2. Eine zweites Terminal offnen und dort folgenden Befehl eingeben:
+ps -a
+3. Die PID von dem Prozesse Namens a23 ablesen
+4. Eine der beiden Befehle beliebig oft eingeben:
+kill -9 <pid>
+oder:
+kill -15 <pid>
+eingeben.
+5. Es ist zu beachten, dass das Programm nach genau dreimal kill -9 oder dreimal kill -15 der Prozesse beendet wird.

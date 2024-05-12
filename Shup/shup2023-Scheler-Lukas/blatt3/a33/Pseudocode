@@ -1,0 +1,87 @@
+Problem wie Erzeuger Verbraucher
+Verbraucher: Drucker
+Erzeuger: Anwendungen
+Pseudocode:
+// wait und signal hier als wait_sem, signal_sem
+
+// Shared-Memory
+PrintJob  *array  // liste auf die Aufträge sind
+PrintJob *p1      // Aufträge für Printer 1
+PrintJob *p2     // Aufträge für Printer 2
+
+//Semaphore
+Semaphore mutex = 1 // Mutex für den Zugriff auf die Queue
+Semaphore fullArray = 0
+Semaphore emptyArray =  5
+
+Semaphore fullP1 = 0
+Semaphore emptyP1 = 1
+
+Semaphore fullP2 = 0
+Semaphore emptyP2 = 1
+
+Int currentPrinter = 1 // Kann 1 oder 2 sein damit beide Drucker mal dran kommen
+
+// Funktion zum Hinzufügen eines Druckauftrags zur Queue, wird von Anwendungen verwendet 
+void Anwendung(void) { 
+	Int pages
+	Int content
+
+	pages = rand_h()
+	content = rand_h()
+	wait(emptyArray) 
+	wait(mutex) 
+	
+	addJob_h(array, pages, content)
+	
+	signal(mutex) 
+	signal(fullArray) 
+	}
+}
+
+// Funktion zum Entfernen eines Druckauftrages von der Queue, wird vom Druckerspooler verwendet
+Void Druckerspooler(void) {
+	Printjob newJob
+	While(true) {
+	
+		Wait(fullArray)
+		Wait(mutex)
+	
+		newJob = removeJob_h(array)
+		
+		Signal(mutex)
+		Signal(emptyArray)
+		
+		If(currentPrinter == 1) {
+			Wait(emptyP1)
+			p1 = newJob
+			signal(fullP1) 
+		} else {
+			Wait(emptyP2)
+			p2 = newJob
+			signal(fullP2)
+		} 
+	}
+}
+
+// Wird vom ersten Drucker Ausgeführt
+Void Drucker1(void) {
+	Printjob newJob = p1
+	While(true) {
+		Wait(fullP1)
+		newJob = p1
+		Print_h(p1)
+		Signal(emptyP1)
+	}
+}
+
+// Wird vom zweiten Drucker Ausgeführt
+Void Drucker2(void) {
+	Printjob newJob = p2
+	While(true) {
+		Wait(fullP2)
+		newJob = p2
+		Print_h(p2)
+		Signal(emptyP2)
+	}
+}

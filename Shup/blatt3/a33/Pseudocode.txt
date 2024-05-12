@@ -1,0 +1,54 @@
+// Definitionen
+shared int warteplatz = 0  // Anzahl der freien Plätze in der Warteschlange
+shared int berater_plaetze = 3  // Anzahl der verfügbaren Beraterplätze
+shared semaphore mutex = 1  // Semaphore zum Schutz des gemeinsamen Speichers
+shared semaphore warteplatz_sem = 1  // Semaphore für den Zugriff auf die Warteschlange
+shared semaphore berater_sem = 1  // Semaphore für den Zugriff auf die Beraterplätze
+shared semaphore wartezeit_sem = 1  // Semaphore zur Steuerung der Ansagen
+
+// Prozess für eingehende Anrufe
+process Anruf_eingehend {
+    while (true) {
+        sleep(zufällige_zeit(0, 2))  // Zufällige Ankunftszeit zwischen 0 und 2 Minuten
+        wait(mutex)
+        if (warteplatz < 4) {
+            warteplatz++
+            signal(mutex)
+            wait(warteplatz_sem)
+            wait(wartezeit_sem)
+            // Anruf wird entgegengenommen
+            signal(wartezeit_sem)
+            wait(mutex)
+            warteplatz--
+            signal(mutex)
+            signal(berater_sem)
+        } else {
+            // Warteschlange ist voll, Anruf wird abgelehnt
+            signal(mutex)
+            sende_meldung("Die Hotline ist zur Zeit überlastet. Versuchen Sie es später noch einmal.")
+        }
+    }
+}
+
+// Prozess für Berater
+process Berater {
+    while (true) {
+        wait(berater_sem)
+        wait(mutex)
+        berater_plaetze--
+        signal(mutex)
+        // Berater nimmt Anruf entgegen
+        sleep(zufällige_zeit(0, 5))  // Zufällige Dauer des Beratungsgesprächs zwischen 0 und 5 Minuten
+        wait(mutex)
+        berater_plaetze++
+        signal(mutex)
+        signal(berater_sem)
+    }
+}
+
+// Hauptprogramm
+main() {
+    starte Prozess Anruf_eingehend
+    starte 3 Prozesse Berater
+    warte auf Beendigung aller Prozesse
+}
