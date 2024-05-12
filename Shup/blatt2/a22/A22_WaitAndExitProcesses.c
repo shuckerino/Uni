@@ -34,6 +34,7 @@ Untersuchen und vergleichen Sie die Endestatuswerte der Kindprozesse
 
 int main(int argc, char *argv[])
 {
+    printf("This solution was created by Rinaldo Schuster\n");
 
     if (argc != 5)
     {

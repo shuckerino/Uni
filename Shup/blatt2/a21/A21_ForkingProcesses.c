@@ -17,7 +17,7 @@ Reihenfolge beenden
 
 int main(){
 	
-	printf("Starting program \"Forking processes\"...\n");
+	printf("This solution was created by Rinaldo Schuster\n");
 
 	// create child process
 	int p_id = fork();
