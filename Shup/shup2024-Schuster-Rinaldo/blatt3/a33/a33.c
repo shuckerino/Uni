@@ -16,6 +16,7 @@ struct shared_data
 {
     int waiting_count;
     int counselor_count;
+    int current_customer_id;
 };
 
 // Semaphore IDs
@@ -60,6 +61,7 @@ void init_semaphores_and_shared_memory()
 
     shared_data->waiting_count = 0;
     shared_data->counselor_count = MAX_COUNSELORS;
+    shared_data->current_customer_id = 1;
 
     if (shmdt(shared_data) == -1)
     {
@@ -145,11 +147,12 @@ void counselor()
         // decrease waiting counter
         wait_sem(counselor_sem);
         wait_sem(mutex_sem);
-        current_customer = shared_data->waiting_count;
+        current_customer = shared_data->current_customer_id;
         current_counselor = shared_data->counselor_count;
         printf("Counselor %d takes call from customer Nr. %d.\n", current_counselor, current_customer);
         shared_data->counselor_count--;
         shared_data->waiting_count--;
+        shared_data->current_customer_id++;
         signal_sem(mutex_sem);
 
         sleep(get_random_time(0, 5)); // Simulate random duration of call between 0 and 5
