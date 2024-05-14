@@ -26,7 +26,8 @@ int main(){
 
 	printf("Program got started!\n");
 
-	struct sigaction sigint_handl, sigterm_handl;
+	struct sigaction sigint_handl;
+	struct sigaction sigterm_handl;
 	sigint_handl.sa_handler = sigint_handler;
 	sigterm_handl.sa_handler = sigterm_handler;
 	
