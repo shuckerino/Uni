@@ -11,7 +11,6 @@
 #define MAX_QUEUE_SIZE 4
 #define MAX_COUNSELORS 3
 
-// Shared memory structure
 struct shared_data
 {
     int waiting_count;
@@ -19,10 +18,7 @@ struct shared_data
     int current_customer_id;
 };
 
-// Semaphore IDs
 int mutex_sem, waiting_sem, counselor_sem;
-
-// Shared memory ID
 int shared_memory_id;
 
 int wait_sem(int semid)
@@ -52,7 +48,7 @@ void init_semaphores_and_shared_memory()
 
     if (mutex_sem < 0 || waiting_sem < 0 || counselor_sem < 0)
     {
-        printf("Error while creating semaphores!\n");
+        perror("Error while creating semaphores!\n");
         exit(1);
     }
 
@@ -66,14 +62,14 @@ void init_semaphores_and_shared_memory()
 
     if (shared_memory_id < 0)
     {
-        printf("Error while creating shared memory!\n");
+        perror("Error while creating shared memory!\n");
         exit(1);
     }
 
     struct shared_data *shared_data = (struct shared_data *)shmat(shared_memory_id, NULL, 0);
     if (shared_data == (void *)-1)
     {
-        printf("Error while attaching shared memory!\n");
+        perror("Error while attaching shared memory!\n");
         exit(1);
     }
 
@@ -83,7 +79,7 @@ void init_semaphores_and_shared_memory()
 
     if (shmdt(shared_data) == -1)
     {
-        printf("Error while detaching shared memory!\n");
+        perror("Error while detaching shared memory!\n");
         exit(1);
     }
 }
@@ -98,7 +94,7 @@ void handle_incoming_calls()
     struct shared_data *shared_data = (struct shared_data *)shmat(shared_memory_id, NULL, 0);
     if (shared_data == (void *)-1)
     {
-        printf("Error while attaching shared memory for incoming call handler!\n");
+        perror("Error while attaching shared memory for incoming call handler!\n");
         exit(1);
     }
 
@@ -124,7 +120,7 @@ void handle_incoming_calls()
 
     if (shmdt(shared_data) == -1)
     {
-        printf("Error while detaching shared memory for incoming call handler!\n");
+        perror("Error while detaching shared memory for incoming call handler!\n");
         exit(1);
     }
 }
@@ -134,7 +130,7 @@ void counselor()
     struct shared_data *shared_data = (struct shared_data *)shmat(shared_memory_id, NULL, 0);
     if (shared_data == (void *)-1)
     {
-        printf("Error while attaching shared memory for counselor!\n");
+        perror("Error while attaching shared memory for counselor!\n");
         exit(1);
     }
 
@@ -143,9 +139,8 @@ void counselor()
     while (1)
     {
         wait_sem(waiting_sem); // wait for a call in queue
+        wait_sem(counselor_sem); // wait for available counselor
 
-        // decrease waiting counter
-        wait_sem(counselor_sem);
         wait_sem(mutex_sem);
         current_customer = shared_data->current_customer_id;
         current_counselor = shared_data->counselor_count;
@@ -160,7 +155,7 @@ void counselor()
         printf("Counselor %d finishes current call with customer %d.\n", current_counselor, current_customer);
 
         signal_sem(counselor_sem); // Signal that the counselor is available again
-
+        // increment counter of available counselors again
         wait_sem(mutex_sem);
         shared_data->counselor_count++;
         signal_sem(mutex_sem);
@@ -168,7 +163,7 @@ void counselor()
 
     if (shmdt(shared_data) == -1)
     {
-        printf("Error while detaching shared memory for counselor!\n");
+        perror("Error while detaching shared memory for counselor!\n");
         exit(1);
     }
 }
@@ -182,7 +177,7 @@ int main()
     pid_t pid = fork();
     if (pid < 0)
     {
-        printf("Error while forking child process.\n");
+        perror("Error while forking child process.\n");
         exit(1);
     }
     else if (pid == 0)
@@ -197,7 +192,7 @@ int main()
         pid = fork();
         if (pid < 0)
         {
-            printf("Error while forking counselor process.\n");
+            perror("Error while forking counselor process.\n");
             exit(1);
         }
         else if (pid == 0)

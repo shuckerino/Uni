@@ -9,14 +9,12 @@ const int MAX_USER_INPUT = 256;
 
 void display_current_working_directory()
 {
-	// fetch current working directory
 	char cwd_buffer[PATH_MAX];
 	if (getcwd(cwd_buffer, sizeof(cwd_buffer)) == NULL)
 	{
-		printf("Could not get current working directory, therefore aborting execution...\n");
+		perror("Could not get current working directory, therefore aborting execution...\n");
 		exit(1);
 	}
-	// print current working directory
 	printf("%s : ", cwd_buffer);
 }
 
@@ -24,12 +22,11 @@ int main()
 {
 	printf("This solution was created by Rinaldo Schuster\n");
 	display_current_working_directory();
-	while (1)
-	{
-		// get user input (shell command to be executed)
-		char user_input[MAX_USER_INPUT];
-		fgets(user_input, MAX_USER_INPUT, stdin);
 
+	char user_input[MAX_USER_INPUT];
+
+	while (fgets(user_input, MAX_USER_INPUT, stdin) != NULL)
+	{
 		// format user input (remove trailing new line)
 		user_input[strcspn(user_input, "\n")] = '\0';
 
@@ -37,7 +34,7 @@ int main()
 		if (strcmp(user_input, "schluss") == 0)
 		{
 			printf("Midi Shell was aborted!\n");
-			return 0;
+			exit(EXIT_SUCCESS);
 		}
 
 		// tokenize user input (into command, options, arguments etc.)
@@ -59,7 +56,7 @@ int main()
 		{
 			if (argc < 2)
 			{
-				printf("Error: Missing path after \"cd\".\n");
+				perror("Error: Missing path after \"cd\".\n");
 			}
 			else
 			{
@@ -85,29 +82,23 @@ int main()
 			char *path_var = getenv("PATH");
 			if (path_var == NULL)
 			{
-				printf("The path variable could not be fetched, aborting program...\n");
-				return -1;
+				perror("The path variable could not be fetched, aborting program...\n");
+				exit(EXIT_FAILURE);
 			}
 
-			// make copy of path variable, because string tokenizer is disruptive on original string
 			char path_copy[1024];
 			strncpy(path_copy, path_var, sizeof(path_copy));
-			// printf("Path copy is %s", path_copy);
 
 			// split path variable into paths
 			char *path_part = strtok(path_copy, ":");
 			while (path_part != NULL)
 			{
-				// printf("Token: %s\n", path_part);
-				//  create full path with sprintf to concatenate to the full path
 				sprintf(full_path, "%s/%s", path_part, user_input);
-				// printf("Full path is: %s\n", full_path);
 
 				//  check if path exists
-				if (access(full_path, X_OK) == 0) // X_OK to check if it is executable
+				if (access(full_path, X_OK) == 0)
 				{
 					command_found = 1;
-					// printf("Path in Path variable found, right path is %s\n", path_part);
 					break;
 				}
 				path_part = strtok(NULL, ":"); // continue to get the next token
@@ -120,8 +111,8 @@ int main()
 
 			if (child_pid < 0)
 			{
-				printf("Child process could not be forked, aborting program...\n");
-				return -1;
+				perror("Child process could not be forked, aborting program...\n");
+				exit(EXIT_FAILURE);
 			}
 			else if (child_pid == 0) // code for child process
 			{

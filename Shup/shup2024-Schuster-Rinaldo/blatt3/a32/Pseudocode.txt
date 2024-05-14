@@ -1,0 +1,46 @@
+
+main(){
+
+    check_argv_arguments()
+
+    loop_count = argv[1]
+    seed = argv[2]
+    init_random_generator(seed)
+
+    create_shared_memory()
+    if creation_fails{
+        print(error)
+        terminate()
+    }
+
+    attach_shared_memory()
+    if attachement_fails{
+        print(error)
+        terminate()
+    }
+
+    fork_child_process()
+    if fork_fails{
+        print(error)
+        clean_shared_memory()
+        terminate()
+    }
+    else if child_process{
+        for loop_count iterations{
+            print(read_shared_memory())
+        }
+        terminate_child_process()
+    }
+    else if parent_process{
+        for loop_count iterations{
+            write_into_shared_memory(random_value())
+        }
+
+        wait(child_process)
+    }
+
+    clean_shared_memory()
+
+    terminate()
+
+}
