@@ -1,0 +1,17 @@
+Autor: Rinaldo Schuster
+Shell und Prozesse SS 2024
+Blatt 2: Prozesse unter Linux
+Aufgabe 24
+
+Vorbedingung:
+Das aktuelle Arbeitsverzeichnis ist:
+blatt2/a24
+
+Generieranleitung:
+1. Generieren des ausfuehrbaren Programms mit:
+gcc -o a24 a24.c
+
+Bedienungsanleitung:
+1. Start des ausfuehrbaren Programms mit:
+./a24
+2. 
