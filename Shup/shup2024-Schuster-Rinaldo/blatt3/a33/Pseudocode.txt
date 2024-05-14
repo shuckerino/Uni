@@ -2,61 +2,61 @@ Problem: Producer-Consumer-Problem (Erzeuger-Verbraucher-Problem)
 Producer: Incoming calls from customer
 Consumer: Counselors in call center
 
-// Semaphore definitions
-shared int waiting_spots = 0  // Number of free spots in the waiting queue
-shared int counselor_spots = 3  // Number of available counselor spots
-shared semaphore mutex = 1  // Semaphore to protect shared memory
-shared semaphore waiting_spots_sem = 1  // Semaphore for accessing the waiting queue
-shared semaphore counselor_sem = 1  // Semaphore for accessing counselor spots
-shared semaphore wait_time_sem = 1  // Semaphore to control the announcements
+// Shared Data Definitions
+shared struct shared_data {
+    int waiting_count = 0;  // Number of calls waiting in the queue
+    int counselor_count = 3;  // Number of available counselors
+    int current_customer_id = 1;  // ID of the current customer
+}
 
+// Semaphore Definitions
+shared semaphore mutex = 1;  // Semaphore to protect shared memory
+shared semaphore waiting_sem = 1;  // Semaphore for accessing the waiting queue
+shared semaphore counselor_sem = 1;  // Semaphore for accessing counselor spots
 
-// Process for incoming calls
-process Incoming_Call {
+// Process for Incoming Calls
+process Handle_Incoming_Calls {
     while (true) {
-        sleep(random_time(0, 2))  // Random arrival time between 0 and 2 minutes
-        wait(mutex)
-        if (waiting_spots < 4) {
-            waiting_spots++
-            signal(mutex)
-            wait(waiting_spots_sem)
-            wait(wait_time_sem)
+        sleep(get_random_time(0, 2));  // Random arrival time between 0 and 2 minutes
+        wait(mutex);
+        if (shared_data.waiting_count < 4) {
+            shared_data.waiting_count++;
+            signal(mutex);
+            wait(waiting_sem);
             // Call is received
-            signal(wait_time_sem)
-            wait(mutex)
-            waiting_spots--
-            signal(mutex)
-            signal(counselor_sem)
+            wait(mutex);
+            shared_data.waiting_count--;
+            signal(mutex);
+            signal(counselor_sem);
         } else {
             // Waiting queue is full, call is declined
-            signal(mutex)
-            send_message("The hotline is currently overloaded. Please try again later.")
+            signal(mutex);
+            send_message("The hotline is currently overloaded. Please try again later.");
         }
     }
 }
 
-
 // Process for Counselor
 process Counselor {
     while (true) {
-        wait(counselor_sem)
-        wait(mutex)
-        counselor_spots--
-        signal(mutex)
+        wait(counselor_sem);
+        wait(mutex);
+        shared_data.counselor_count--;
+        signal(mutex);
         // Counselor receives call
-        sleep(random_time(0, 5))  // Random duration of the counseling session between 0 and 5 minutes
-        wait(mutex)
-        counselor_spots++
-        signal(mutex)
-        signal(counselor_sem)
+        sleep(get_random_time(0, 5));  // Random duration of the counseling session between 0 and 5 minutes
+        wait(mutex);
+        shared_data.counselor_count++;
+        signal(mutex);
+        signal(counselor_sem);
     }
 }
 
-
 // Simulation
 main() {
-    start process Incoming_Call
-    start 3 processes Counselor
-    wait for all processes to finish
+    start process Handle_Incoming_Calls;
+    start 3 processes Counselor;
+    wait for all processes to finish;
 }
+
 

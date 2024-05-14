@@ -6,6 +6,19 @@
 #include <unistd.h>
 #include <sys/wait.h>
 
+void clean_shared_memory(int shared_memory_id, int *shared_memory_address)
+{
+    if (shmdt(shared_memory_address) == -1)
+    {
+        perror("Error while detaching shared memory from address space of current process!\n");
+    }
+
+    if (shmctl(shared_memory_id, IPC_RMID, NULL) == -1)
+    {
+        perror("Error while deleting shared memory!\n");
+    }
+}
+
 int main(int argc, char *argv[])
 {
     printf("This solution was created by Rinaldo Schuster\n");
@@ -17,6 +30,13 @@ int main(int argc, char *argv[])
     }
 
     int loop_count = atoi(argv[1]);
+
+    if (loop_count <= 0)
+    {
+        printf("Invalid number of iterations.\n");
+        exit(EXIT_FAILURE);
+    }
+
     int seed = atoi(argv[2]);
     srand(seed);
 
@@ -30,7 +50,7 @@ int main(int argc, char *argv[])
     // check for failure
     if (shared_memory_id < 0)
     {
-        printf("Error while creating shared memory!\n");
+        perror("Error while creating shared memory!\n");
         exit(EXIT_FAILURE);
     }
 
@@ -40,7 +60,7 @@ int main(int argc, char *argv[])
     // check for failure
     if (shared_memory_address == (int *)-1)
     {
-        printf("Error while attaching shared memory to address space of current process!\n");
+        perror("Error while attaching shared memory to address space of current process!\n");
         exit(EXIT_FAILURE);
     }
 
@@ -48,7 +68,8 @@ int main(int argc, char *argv[])
 
     if (process_id < 0)
     {
-        printf("Error while forking child process!\n");
+        perror("Error while forking child process!\n");
+        clean_shared_memory(shared_memory_id, shared_memory_address);
         exit(1);
     }
     else if (process_id == 0) // Child process
@@ -57,6 +78,7 @@ int main(int argc, char *argv[])
         for (int i = 0; i < loop_count; i++)
         {
             printf("Child proceses reading from shared memory: %d\n", *shared_memory_address);
+            usleep(100000); // add a slight delay to allow parent to write
         }
         exit(0);
     }
@@ -67,6 +89,7 @@ int main(int argc, char *argv[])
         {
             *shared_memory_address = rand();
             printf("Parent process writing into shared memory: %d\n", *shared_memory_address);
+            usleep(100000); // add a slight delay to allow child to read
         }
 
         // wait for child process to terminate
@@ -76,17 +99,4 @@ int main(int argc, char *argv[])
     clean_shared_memory(shared_memory_id, shared_memory_address);
 
     return 0;
-}
-
-void clean_shared_memory(int shared_memory_id, int *shared_memory_address)
-{
-    if (shmdt(shared_memory_address) == -1)
-    {
-        perror("Error while detaching shared memory from address space of current process!\n");
-    }
-
-    if (shmctl(shared_memory_id, IPC_RMID, NULL) == -1)
-    {
-        perror("Error while deleting shared memory!\n");
-    }
 }
