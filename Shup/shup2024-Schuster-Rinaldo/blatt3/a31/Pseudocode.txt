@@ -1,10 +1,8 @@
+// Semaphore definitions
+shared semaphore_set sem_set = create_semaphore_set(2)  // Create a set of 2 semaphores
+
 
 main(){
-    create_semaphore_set(2) // create semaphore set with 2 semaphores
-    if creation_fails{
-        print(error)
-        terminate()
-    }
 
     fork_child_process()
     if fork_fails{
@@ -13,17 +11,19 @@ main(){
     }
 
     if child_process{
-        wait(first_semaphore)
+        wait(sem_set, 0)
         print("Signal received from first semaphore")
-        signal(second_semaphore)
+        signal(sem_set, 1)
         terminate_child_process()
     }
     else if parent_process{
-        signal(first_semaphore)
-        wait(second_semaphore)
+        signal(sem_set, 0)
+        wait(sem_set, 1)
         print("Signal received from second_semaphore")
         wait(child_process)
     }
 
     delete_semaphore_set()
+
+    terminate()
 }

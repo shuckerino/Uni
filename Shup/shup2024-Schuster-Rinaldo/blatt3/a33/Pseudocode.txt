@@ -31,7 +31,7 @@ process Handle_Incoming_Calls {
         } else {
             // Waiting queue is full, call is declined
             signal(mutex);
-            send_message("The hotline is currently overloaded. Please try again later.");
+            send_message_h("The hotline is currently overloaded. Please try again later.");
         }
     }
 }
