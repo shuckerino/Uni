@@ -1,3 +1,3 @@
 # Uni
 
-- Just a repo for organising Uni stuff
+- Repo with some Exercises from my 6th semester of CS bachelors degree
