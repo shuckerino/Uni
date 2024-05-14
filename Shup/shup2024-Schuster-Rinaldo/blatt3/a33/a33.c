@@ -174,15 +174,15 @@ void counselor()
     {
         // Wait for an available call
         int value = semctl(waiting_sem, 0, GETVAL, 0);
-        if (value < MAX_QUEUE_SIZE)
+        if (value < MAX_QUEUE_SIZE && value > 0)
         {
+            signal_sem(waiting_sem);
             printf("Counselor takes next call.\n");
             sleep(get_random_time(0, 5)); // Simulate random duration of call
             printf("Counselor finished call.\n");
 
             // Signal that the counselor is available again
             signal_sem(counselor_sem);
-            signal_sem(waiting_sem);
         }
         else
         {
