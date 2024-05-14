@@ -11,9 +11,6 @@ union semun
 	unsigned short int *array;
 };
 
-/// @brief Creates new semaphore set and initializes all values with 0
-/// @param num_of_sems_to_create number of semaphores in the semaphore set
-/// @return Id of the created semaphore set
 int create_semaphore_set(int num_of_sems_to_create)
 {
 	/*
@@ -26,7 +23,7 @@ int create_semaphore_set(int num_of_sems_to_create)
 	int sem_id = semget(IPC_PRIVATE, num_of_sems_to_create, IPC_CREAT | IPC_EXCL | 0777);
 	if (sem_id < 0)
 	{
-		perror("Semaphore konnte nicht erstellt werden.\n");
+		perror("Semaphore could not be created.\n");
 		exit(1);
 	}
 
@@ -38,7 +35,7 @@ int create_semaphore_set(int num_of_sems_to_create)
 	{
 		if (semctl(sem_id, i, SETVAL, sem) < 0)
 		{
-			perror("Ein Semaphorenwert konnte nicht gesetzt werden.\n");
+			perror("Error while setting the semaphore values.\n");
 			exit(1);
 		}
 	}
@@ -51,7 +48,7 @@ void sem_signal(int sem_id, int sem_num)
 	struct sembuf buf = {sem_num, 1, SEM_UNDO};
 	if (semop(sem_id, &buf, 1) < 0)
 	{
-		perror("Signal für Semaphore konnte nicht ausgeführt werden.\n");
+		perror("Signal could not be executed for semaphore.\n");
 		exit(1);
 	}
 }
@@ -61,14 +58,14 @@ void sem_wait(int sem_id, int sem_num)
 	struct sembuf buf = {sem_num, -1, SEM_UNDO};
 	if (semop(sem_id, &buf, 1) < 0)
 	{
-		perror("Wait für Semaphore konnte nicht ausgeführt werden.\n");
+		perror("Wait could not be executed for semaphore.\n");
 		exit(1);
 	}
 }
 
 int main()
 {
-	printf("Diese Lösung wurde erstellt von Rinaldo Schuster.\n");
+	printf("This solution was created by Rinaldo Schuster\n");
 
 	// Create two semaphores
 	int semid = create_semaphore_set(2);
@@ -77,27 +74,28 @@ int main()
 
 	if (child_id < 0)
 	{
-		perror("Fehler beim erzeugen eines Kindprozesses");
+		perror("Error while creating child process.\n");
 		exit(1);
 	}
 	else if (child_id == 0) // child process
 	{
 		sem_wait(semid, 0); // Warten auf Signal des Elternprozesses
-		printf("Kindprozess hat das Signal von Semaphore 0 erhalten\n");
+		printf("Child process received signal from Semaphore 0.\n");
 
-		sem_signal(semid, 1); // Signal an den Elternprozess senden
+		sem_signal(semid, 1); // signal to parent process
 		exit(0);
 	}
 	else // parent process
 	{
-		sem_signal(semid, 0); // Signal an den Kindprozess senden
-		sem_wait(semid, 1);	  // Warten auf Signal des Kindprozesses
+		sem_signal(semid, 0); // Signal to child process
+		sem_wait(semid, 1);	  // wait for signal of child process
 		printf("Elternprozess hat das Signal von Semaphore 1 erhalten\n");
+		printf("Parent process received signal from Semaphore 1.\n");
 	}
 
 	if (semctl(semid, 0, IPC_RMID, NULL) < 0)
 	{
-		perror("Fehler beim löschen der Semaphore");
+		perror("Error while deleting semaphore.\n");
 	}
 
 	return 0;
