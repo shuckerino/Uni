@@ -5,7 +5,7 @@
 #include <string.h>
 #include <sys/wait.h>
 
-const int MAX_USER_INPUT = 64;
+const int MAX_USER_INPUT = 256;
 
 int main()
 {
@@ -14,10 +14,10 @@ int main()
 	if (getcwd(cwd_buffer, sizeof(cwd_buffer)) == NULL)
 	{
 		printf("Could not get current working directory, therefore aborting execution...\n");
-		return -1;
+		exit(1);
 	}
 
-	while (1) // infinite loop, break only with "schluss"
+	while (1)
 	{
 		// print current working directory
 		printf("%s : ", cwd_buffer);
