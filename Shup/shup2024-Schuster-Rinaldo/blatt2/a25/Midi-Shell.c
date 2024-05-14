@@ -7,7 +7,7 @@
 
 const int MAX_USER_INPUT = 256;
 
-int main()
+void display_current_working_directory()
 {
 	// fetch current working directory
 	char cwd_buffer[PATH_MAX];
@@ -16,12 +16,16 @@ int main()
 		printf("Could not get current working directory, therefore aborting execution...\n");
 		exit(1);
 	}
+	// print current working directory
+	printf("%s : ", cwd_buffer);
+}
 
+int main()
+{
+	printf("This solution was created by Rinaldo Schuster\n");
+	display_current_working_directory();
 	while (1)
 	{
-		// print current working directory
-		printf("%s : ", cwd_buffer);
-
 		// get user input (shell command to be executed)
 		char user_input[MAX_USER_INPUT];
 		fgets(user_input, MAX_USER_INPUT, stdin);
@@ -49,6 +53,24 @@ int main()
 		// if no command entered
 		if (argc == 0)
 			continue;
+
+		// check for "cd" command
+		if (strcmp(args[0], "cd") == 0)
+		{
+			if (argc < 2)
+			{
+				printf("Error: Missing path after \"cd\".\n");
+			}
+			else
+			{
+				if (chdir(args[1]) != 0)
+				{
+					perror("Error while changing directory.\n");
+				}
+			}
+			display_current_working_directory();
+			continue;
+		}
 
 		// allocate memory for the full_path
 		char *full_path = malloc(128 * sizeof(char));
@@ -112,12 +134,13 @@ int main()
 			{
 				int status;
 				wait(&status);
-				printf("Child exited with code %d\n", status);
+				display_current_working_directory();
 			}
 		}
 		else
 		{
 			printf("Command was not found!\n");
+			display_current_working_directory();
 		}
 	}
 	return 0;
