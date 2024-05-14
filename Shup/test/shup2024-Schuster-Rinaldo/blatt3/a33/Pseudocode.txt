@@ -1,6 +1,6 @@
 Problem: Producer-Consumer-Problem (Erzeuger-Verbraucher-Problem)
-Producer: Incoming calls from customer
-Consumer: Counselors in call center
+Producer: incoming calls from customer
+Consumer: counselors in call center
 
 // Semaphore definitions
 shared int waiting_spots = 0  // Number of free spots in the waiting queue
