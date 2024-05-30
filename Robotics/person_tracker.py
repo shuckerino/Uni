@@ -1,8 +1,6 @@
 #!/bin/python3
 import cv2
 
-import cv2
-
 # Initialize video source, 0 for the primary camera
 cap = cv2.VideoCapture(0)
 
@@ -25,16 +23,26 @@ while True:
     # Find contours in the foreground mask
     contours, _ = cv2.findContours(fgMask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
-    # Draw contours on the original frame
+    # Initialize variables to store the bounding box coordinates
+    x_min, y_min = float('inf'), float('inf')
+    x_max, y_max = float('-inf'), float('-inf')
+
     for contour in contours:
-        if cv2.contourArea(contour) > 800:  # Filter out small contours
+        if cv2.contourArea(contour) > 2000:  # Filter out small contours
             x, y, w, h = cv2.boundingRect(contour)
-            cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
+            x_min = min(x_min, x)
+            y_min = min(y_min, y)
+            x_max = max(x_max, x + w)
+            y_max = max(y_max, y + h)
+
+    # Draw the bounding box if any contours are found
+    if x_min < x_max and y_min < y_max:
+        cv2.rectangle(frame, (x_min, y_min), (x_max, y_max), (0, 255, 0), 2)
 
     # Display the resulting frame
     cv2.imshow('Frame', frame)
-    cv2.imshow('Foreground Mask', fgMask)
-
+    # cv2.imshow('Foreground Mask', fgMask)
+    
     # Press 'q' on the keyboard to exit
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
