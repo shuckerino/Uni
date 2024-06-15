@@ -8,7 +8,7 @@ file_part="$(basename "$1")"
 file_name_without_extension="${file_part%.*}"
 extension="${file_part##*.}"
 
-if [ "$1" == "$extension" ]
+if [ "$1" = "$extension" ]
 then
 	extension="$file_name_without_extension"
 fi
