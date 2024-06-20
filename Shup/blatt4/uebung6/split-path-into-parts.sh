@@ -13,7 +13,7 @@ then
 	extension="$file_name_without_extension"
 fi
 
-echo "Zu zerlegender Pfadname: $1"
+echo "Zu zerlegender Pfadname: '$1'"
 echo "Pfadanteil: $(dirname "$1")"
 echo "Dateianteil: $(basename "$1")"
 echo "Dateiname ohne Erweiterung: $file_name_without_extension"
