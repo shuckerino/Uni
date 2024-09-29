@@ -8,24 +8,24 @@
 #include "VBO.h"
 #include "EBO.h"
 #include "Shader.h"
+#include "texture.h"
 
-// Vertices for a triforce (= positions of corners)
+// Vertices coordinates
 GLfloat vertices[] =
     {
-        -0.5f, -0.5f * float(sqrt(3)) / 3, 0.0f,    // Lower left corner
-        0.5f, -0.5f * float(sqrt(3)) / 3, 0.0f,     // Lower right corner
-        0.0f, 0.5f * float(sqrt(3)) * 2 / 3, 0.0f,  // Upper corner
-        -0.5f / 2, 0.5f * float(sqrt(3)) / 6, 0.0f, // Inner left
-        0.5f / 2, 0.5f * float(sqrt(3)) / 6, 0.0f,  // Inner right
-        0.0f, -0.5f * float(sqrt(3)) / 3, 0.0f      // Inner down
+        //     COORDINATES     /        COLORS      /   TexCoord  //
+        -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, // Lower left corner
+        -0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f,  // Upper left corner
+        0.5f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,   // Upper right corner
+        0.5f, -0.5f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f   // Lower right corner
 };
 
-// Indices storing the order of the corners in a specific order (rendering is counter clock wise by default)
+// Indices for vertices order
 GLuint indices[] =
     {
-        5, 0, 3,
-        3, 2, 4,
-        5, 4, 1};
+        0, 2, 1, // Upper triangle
+        0, 3, 2  // Lower triangle
+};
 
 int main()
 {
@@ -36,7 +36,7 @@ int main()
         return -1;
 
     /* Create a windowed mode window and its OpenGL context */
-    window = glfwCreateWindow(640, 480, "Triforce", NULL, NULL);
+    window = glfwCreateWindow(800, 800, "Triforce", NULL, NULL);
     if (!window)
     {
         glfwTerminate();
@@ -74,6 +74,9 @@ int main()
 
     glEnable(GL_DEPTH_TEST);
 
+    Texture texture("res/stone_texture.jpg");
+    texture.Bind();
+
     while (!glfwWindowShouldClose(window))
     {
         glClearColor(0.2f, 0.0f, 0.0f, 1.0f);
@@ -84,7 +87,7 @@ int main()
 
         vao.Bind();
 
-        glDrawElements(GL_TRIANGLES, 9, GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
