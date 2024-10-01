@@ -26,8 +26,6 @@ public class SumComputation {
 		// Initialise sa1 with 1s and sa2 with 2s
 		for (int i = 0; i < SIZE; i++) {
 			sa1[i] = 1;
-		}
-		for (int i = 0; i < SIZE; i++) {
 			sa2[i] = 2;
 		}
 
