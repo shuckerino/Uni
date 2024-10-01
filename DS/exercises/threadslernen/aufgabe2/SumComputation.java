@@ -1,6 +1,5 @@
-package threadslernen;
+package threadslernen.aufgabe2;
 
-import java.util.Date;
 
 public class SumComputation {
 
@@ -33,15 +32,19 @@ public class SumComputation {
 		}
 
 		// Erzeuge Worker Threads
-		Thread wt1 = new Thread(new WorkerThread(1));
-		Thread wt2 = new WorkerThread(2);
+		Thread wt1 = new Thread(new WorkerThread(1, sa1));
+		Thread wt2 = new Thread(new WorkerThread(2, sa2));
 
 		// Starte Worker Threads
-		wt1.runThread();
-		wt2.runThread();
+		wt1.run();
+		wt2.run();
 
-		// Warte auf Ende von Worker Threads
-
+		try {
+			// Warte auf Ende von Worker Threads
+			wt1.join();
+			wt2.join();
+		} catch (Exception e) {
+		}
 
 		System.out.println("Programm: sum " + sum);
 		System.out.println("Beende Programm SumComputation");
@@ -51,16 +54,28 @@ public class SumComputation {
 	private class WorkerThread implements Runnable {
 
 		private int id;
+		private int[] threadArray;
 
-		public WorkerThread(int id) {
+		public WorkerThread(int id, int[] threadArray) {
 			this.id = id;
+			this.threadArray = threadArray;
 		}
 
-		public void runThread() throws InterruptedException {
+		@Override public void run() {
 			System.out.println("Starte worker " + id + " der Klasse " + getClass().getName());
 
-			// Sleep 1 s
-			Thread.sleep(1000);
+			try {
+				// Sleep 1 s
+				Thread.sleep(1000);
+			} catch (Exception e) {
+			}
+
+			for (int i : this.threadArray) {
+				addToSum(i);
+			}
+
+			System.out.println("Worker " + id + ": sum = " + sum);
+			System.out.println("Beende worker " + id + " der Klasse " + getClass().getName());
 			
 
 		}

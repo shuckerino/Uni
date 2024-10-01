@@ -1,4 +1,4 @@
-package threadslernen;
+package threadslernen.aufgabe1;
 
 public class HelloWorld {
 
