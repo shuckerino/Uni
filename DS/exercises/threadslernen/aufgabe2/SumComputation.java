@@ -1,5 +1,5 @@
 package threadslernen.aufgabe2;
-
+import java.util.concurrent.TimeUnit;
 
 public class SumComputation {
 
@@ -17,12 +17,14 @@ public class SumComputation {
 
 	// Methode zum Zugriff auf Sum
 	void addToSum(int i) {
+		// int sum_temp = sum;
+		// Thread.sleep(10);
 		sum = sum + i;
 	}
 
 	private void execute(String[] args) {
+		starttime = System.nanoTime();
 		System.out.println("Starte Programm SumComputation");
-
 		// Initialise sa1 with 1s and sa2 with 2s
 		for (int i = 0; i < SIZE; i++) {
 			sa1[i] = 1;
@@ -34,18 +36,14 @@ public class SumComputation {
 		Thread wt2 = new Thread(new WorkerThread(2, sa2));
 
 		// Starte Worker Threads
-		wt1.run();
-		wt2.run();
-
-		try {
-			// Warte auf Ende von Worker Threads
-			wt1.join();
-			wt2.join();
-		} catch (Exception e) {
-		}
-
+		wt1.start();
+		wt2.start();
+		
 		System.out.println("Programm: sum " + sum);
 		System.out.println("Beende Programm SumComputation");
+		endtime = System.nanoTime();
+		long executionTime = endtime - starttime;
+		System.out.println("Program took " + TimeUnit.NANOSECONDS.toMillis(executionTime) + " ms!");
 
 	}
 
