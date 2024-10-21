@@ -20,14 +20,16 @@ def index_to_kmer(index: int, k: int) -> str:
         kmer = base_order[base_idx] + kmer  # prepend to build the kmer from the end
         index //= 4  # update the index for the next position
     return kmer
-    
-# print(kmer_to_index("AAN"))
-# print(kmer_to_index("AAA"))
-# print(kmer_to_index("AAC"))
-# print(kmer_to_index("AAG"))
-# print(kmer_to_index("AAT"))
-# print(kmer_to_index("TTT"))
-# print(kmer_to_index("CC"))
-# print(kmer_to_index("GT"))
-# print(kmer_to_index("ATCT"))
-# print(index_to_kmer(55, 4))
+
+if __name__ == "__main__":
+    # print(kmer_to_index("GCGTAA"))
+    print(kmer_to_index("CG"))
+    # print(kmer_to_index("AAC"))
+    # print(kmer_to_index("AAG"))
+    # print(kmer_to_index("AAT"))
+    # print(kmer_to_index("TTT"))
+    # print(kmer_to_index("CC"))
+    # print(kmer_to_index("GT"))
+    # print(kmer_to_index("ATCT"))
+    print(index_to_kmer(6, 2))
+
