@@ -29,5 +29,5 @@ def index_to_kmer(index: int, k: int) -> str:
 # print(kmer_to_index("TTT"))
 # print(kmer_to_index("CC"))
 # print(kmer_to_index("GT"))
-print(kmer_to_index("ATCT"))
-print(index_to_kmer(55, 4))
+# print(kmer_to_index("ATCT"))
+# print(index_to_kmer(55, 4))
