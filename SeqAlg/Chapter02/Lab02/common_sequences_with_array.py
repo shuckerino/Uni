@@ -14,20 +14,24 @@ def find_common_sequence(text: str, seq_length : int) -> list:
     res_array = [0] * int(math.pow(4, seq_length))
     for i in range(0, len(text) - seq_length):
         current_kmer = text[i:i+seq_length]
+        rev_comp = reverse_complement(current_kmer)
         # print(current_kmer)
         kmer_index = kmer_mapping.kmer_to_index(current_kmer)
+        rev_comp_index = kmer_mapping.kmer_to_index(rev_comp)
         res_array[kmer_index] = res_array[kmer_index] + 1
+        res_array[rev_comp_index] = res_array[rev_comp_index] + 1
     return res_array
 
 def test_cases():
     kmer_length = 3
-    res = find_common_sequence("ACGTACGTACGTTTTAAA", kmer_length)
+    # res = find_common_sequence("ACGTACGTACGTTTTAAA", kmer_length)
+    res = find_common_sequence("AGATAATCTG", kmer_length)
 
     for i in range(0, len(res)):
         if res[i] == 0:
             continue
         kmer = kmer_mapping.index_to_kmer(i, kmer_length)
-        print(f"Kmer {kmer} has count of {res[i]}. Reverse complement is {reverse_complement(kmer)}")
+        print(f"Kmer {kmer} has count of {res[i]}")
 
 if __name__ == "__main__":     
     test_cases()

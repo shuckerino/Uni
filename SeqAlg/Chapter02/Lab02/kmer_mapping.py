@@ -22,8 +22,9 @@ def index_to_kmer(index: int, k: int) -> str:
     return kmer
 
 if __name__ == "__main__":
-    # print(kmer_to_index("GCGTAA"))
-    print(kmer_to_index("CG"))
+    print(kmer_to_index("GCGTAA"))
+    print(index_to_kmer(2480, 6))
+    # print(kmer_to_index("CG"))
     # print(kmer_to_index("AAC"))
     # print(kmer_to_index("AAG"))
     # print(kmer_to_index("AAT"))
@@ -31,5 +32,5 @@ if __name__ == "__main__":
     # print(kmer_to_index("CC"))
     # print(kmer_to_index("GT"))
     # print(kmer_to_index("ATCT"))
-    print(index_to_kmer(6, 2))
+    # print(index_to_kmer(6, 2))
 
