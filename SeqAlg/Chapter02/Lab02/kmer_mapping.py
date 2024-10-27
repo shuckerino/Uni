@@ -23,6 +23,7 @@ def index_to_kmer(index: int, k: int) -> str:
 
 if __name__ == "__main__":
     print(kmer_to_index("GCGTAA"))
+    print(kmer_to_index("CACAAC"))
     print(index_to_kmer(2480, 6))
     # print(kmer_to_index("CG"))
     # print(kmer_to_index("AAC"))

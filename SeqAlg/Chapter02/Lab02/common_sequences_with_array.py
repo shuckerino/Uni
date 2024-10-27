@@ -9,17 +9,19 @@ def reverse_complement(dna_seq):
             complementary_seq += complement_dict[char.upper()]
     return complementary_seq
 
-def find_common_sequence(text: str, seq_length : int) -> list:
+def find_common_sequence(text: str, seq_length : int, include_rev_comp = True) -> list:
     # res_dict = {} # maps kmer_index to count
     res_array = [0] * int(math.pow(4, seq_length))
     for i in range(0, len(text) - seq_length):
         current_kmer = text[i:i+seq_length]
-        rev_comp = reverse_complement(current_kmer)
-        # print(current_kmer)
         kmer_index = kmer_mapping.kmer_to_index(current_kmer)
-        rev_comp_index = kmer_mapping.kmer_to_index(rev_comp)
         res_array[kmer_index] = res_array[kmer_index] + 1
-        res_array[rev_comp_index] = res_array[rev_comp_index] + 1
+        
+        if include_rev_comp:
+            rev_comp = reverse_complement(current_kmer)
+            # print(current_kmer)
+            rev_comp_index = kmer_mapping.kmer_to_index(rev_comp)
+            res_array[rev_comp_index] = res_array[rev_comp_index] + 1
     return res_array
 
 def test_cases():
