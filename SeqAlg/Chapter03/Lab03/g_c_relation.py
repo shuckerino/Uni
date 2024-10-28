@@ -1,4 +1,4 @@
-import parse_text_file
+import parse_input_files
 import matplotlib.pyplot as plt
 
 # recursive function
@@ -33,23 +33,33 @@ def calculate_g_c_diff_iterative(sequence : str) -> list:
         value_array.append(last_diff + current_diff)
     return value_array[1:] #remove dummy start node 0
 
-def draw_graph(y_values : list):
-    x_values = [i for i in range(0, len(y_values))]
-    plt.plot(x_values, y_values)
-    plt.xlabel("X-axis data")
-    plt.ylabel("Y-axis data")
-    plt.title('multiple plots')
-    plt.show()
+def draw_graph(list_of_y_values : list[list]):
+    for i in range(len(list_of_y_values)):
+        y_values = list_of_y_values[i]
+        plt.figure(i)
+        x_values = [i for i in range(0, len(y_values))]
+        plt.plot(x_values, y_values)
+        plt.xlabel("X-axis data")
+        plt.ylabel("Y-axis data")
+        plt.title('multiple plots')
+    
+def calculate_vibrio_cholerae():
+    seq = parse_input_files.get_sequence_from_fasta("data/genom_Vibrio_cholerae.fasta")
+    return calculate_g_c_diff_iterative(seq)
 
+def calculate_thermotoga_petrophila():
+    seq = parse_input_files.get_sequence_from_fasta("data/genom_Thermotoga_petrophila.fasta")
+    return calculate_g_c_diff_iterative(seq)
+    
+def calculate_escherichia_coli():
+    seq = parse_input_files.get_sequence_from_fasta("data/genom_Escherichia_coli.fasta")
+    return calculate_g_c_diff_iterative(seq)
 
 if __name__ == "__main__":
-    seq = parse_text_file.get_sequence_from_txt("data/oric_Vibrio_cholerae.txt")
-    result_recursive = calculate_g_c_diff_recursive(seq, [0])
-    result_recursive = result_recursive[1:] # remove dummy start value of 0
-    # print(result_recursive)
+    list_of_results = []
+    list_of_results.append(calculate_vibrio_cholerae())
+    list_of_results.append(calculate_thermotoga_petrophila())
+    list_of_results.append(calculate_escherichia_coli())
+    draw_graph(list_of_results)
+    plt.show()
     
-    # result_iterative = calculate_g_c_diff_iterative(seq)
-    # print(result_iterative)
-    # print(f"Results are equal is {result_recursive == result_iterative}")
-    
-    draw_graph(result_recursive)

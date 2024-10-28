@@ -1,4 +1,4 @@
-import parse_text_file
+import Chapter03.Lab03.parse_input_files as parse_input_files
 import sys
 from collections import defaultdict
 sys.path.append('../../Chapter02/Lab02')
@@ -54,7 +54,7 @@ def find_clumps_faster(sequence : str, k : int, L: int, t) -> set:
         
     
 if __name__ == "__main__":
-    sequence = parse_text_file.get_sequence_from_txt("data/oric_Vibrio_cholerae.txt")
+    sequence = parse_input_files.get_sequence_from_txt("data/oric_Vibrio_cholerae.txt")
     # sequence = "gatcagcataagggtccCTGCAATGCATGACAAGCCTGCAGTtgttttac".upper()
     print(len(sequence))
     list_of_clumps = find_clumps_faster(sequence, k=9, L=540, t=2)
