@@ -1,4 +1,4 @@
-import Chapter03.Lab03.parse_input_files as parse_input_files
+import parse_input_files
 import sys
 from collections import defaultdict
 sys.path.append('../../Chapter02/Lab02')
@@ -40,7 +40,7 @@ def find_clumps_faster(sequence : str, k : int, L: int, t) -> set:
         current_kmer = sequence[i:i+k]
         kmer_to_index_dict[current_kmer].append(i)
     
-    print([idx_list for idx_list in kmer_to_index_dict.values() if len(idx_list) > 2])
+    # print([idx_list for idx_list in kmer_to_index_dict.values() if len(idx_list) > 2])
     
     for kmer, index_list in kmer_to_index_dict.items():
         if len(index_list) < t:
@@ -54,9 +54,10 @@ def find_clumps_faster(sequence : str, k : int, L: int, t) -> set:
         
     
 if __name__ == "__main__":
-    sequence = parse_input_files.get_sequence_from_txt("data/oric_Vibrio_cholerae.txt")
+    # sequence = parse_input_files.get_sequence_from_txt("data/oric_Vibrio_cholerae.txt")
+    sequence = parse_input_files.get_sequence_from_fasta("data/genom_Vibrio_cholerae.fasta")
     # sequence = "gatcagcataagggtccCTGCAATGCATGACAAGCCTGCAGTtgttttac".upper()
-    print(len(sequence))
-    list_of_clumps = find_clumps_faster(sequence, k=9, L=540, t=2)
+    # print(len(sequence))
+    list_of_clumps = find_clumps_faster(sequence, k=9, L=len(sequence), t=120)
     print(list_of_clumps)
         
