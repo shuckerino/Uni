@@ -3,7 +3,7 @@ iupac_dict = { "A" : "A", "T" : "T", "G" : "G", "C" : "C", "AT" : "W",
                   "AC" : "M",
                   "GT" : "K",
                   "AG" : "R",
-                  "CT" : ["Y"],
+                  "CT" : "Y",
                   "ACGT" : "N"}
 
 def encode_sequences(iupac_tuple : tuple) -> str:
