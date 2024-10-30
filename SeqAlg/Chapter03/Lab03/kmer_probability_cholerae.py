@@ -5,7 +5,7 @@ import common_sequences_with_array
 import math
 
 def calculate_probability(N: int, t : int, k : int) -> float:
-    return (k * math.comb(N, t)) / (4 ** ((t-1) * k))
+    return (math.comb(N-t * (k-1), t)) / (4 ** ((t-1) * k))
 
 if __name__ == "__main__":
     sequence = parse_input_files.get_sequence_from_txt("data/oric_Vibrio_cholerae.txt")
