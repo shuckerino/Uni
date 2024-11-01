@@ -1,34 +1,7 @@
 import parse_input_files
-import sys
 from collections import defaultdict
-sys.path.append('../../Chapter02/Lab02')
-import common_sequences_with_array
-import kmer_mapping
+from Chapter02.Lab02 import common_sequences_with_array
 
-def find_clumps(sequence : str, k : int, L: int, t) -> dict:
-    '''Finding all kmer clumps in sequence\n
-       Returns list of kmers, that are (L,t)-clumps in sequence'''
-    found_clumps = {} # mapping clump to num of occurences
-        
-    for i in range(0, len(sequence)):
-        print(f"window is {seq}")
-        for i in range(0, len(seq) - k): # find all possible kmers in window
-            kmer_occurences = common_sequences_with_array.find_common_sequence(seq, k, False)
-            print(kmer_occurences)
-            # get the indices of the array where the threshold t is succeded
-            # all_indices_of_clumps = [kmer_occurences.index(num) for num in kmer_occurences if num >= t]
-            # print(all_indices_of_clumps)
-            for num in kmer_occurences:
-                if num < t:
-                    continue                                                        
-                kmer = kmer_mapping.index_to_kmer(kmer_occurences.index(num), k)
-                print(kmer)
-                if kmer in found_clumps:
-                    found_clumps[kmer] += 1
-                else:
-                    found_clumps[kmer] = 1
-    return found_clumps
-    
 def find_clumps_faster(sequence : str, k : int, L: int, t) -> set:
     '''Finding all kmer clumps in sequence\n
        Returns list of kmers, that are (L,t)-clumps in sequence'''

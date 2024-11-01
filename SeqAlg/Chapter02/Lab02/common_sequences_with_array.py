@@ -1,4 +1,4 @@
-import kmer_mapping
+from Chapter02.Lab02 import kmer_mapping
 import math
 
 def reverse_complement(dna_seq):

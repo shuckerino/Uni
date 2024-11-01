@@ -1,7 +1,6 @@
 import sys
 import parse_input_files
-sys.path.append('../../Chapter02/Lab02')
-import common_sequences_with_array
+from Chapter02.Lab02 import common_sequences_with_array
 import math
 
 def calculate_probability(N: int, t : int, k : int) -> float:
