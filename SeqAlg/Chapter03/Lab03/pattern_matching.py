@@ -1,4 +1,4 @@
-import parse_input_files
+import General.parse_input_files as parse_input_files
 
 # idea of pattern matching is similar to find common sequences
 # but now we do not save the number of occurences, but the indices instead
@@ -34,7 +34,7 @@ def find_nonamere_in_sequence(seq : str, pattern : str, include_rev_comp = True)
 
 
 if __name__ == "__main__":
-    text = parse_input_files.get_sequence_from_fasta("data/genom_Vibrio_cholerae.fasta")
+    text = parse_input_files.get_sequence_from_fasta("../../Data/genom_Vibrio_cholerae.fasta")
     list_of_indices = find_nonamere_in_sequence(text, "ATGATCAAG", False) # wrong ATGATCCAG
     # print(f"Test is {text[116556:116556+9]}")
     print(f"List of indices is {list_of_indices}.")

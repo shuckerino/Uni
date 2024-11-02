@@ -1,6 +1,5 @@
-import parse_input_files
+import General.parse_input_files as parse_input_files
 from collections import defaultdict
-from Chapter02.Lab02 import common_sequences_with_array
 
 def find_clumps_faster(sequence : str, k : int, L: int, t) -> set:
     '''Finding all kmer clumps in sequence\n
@@ -28,7 +27,7 @@ def find_clumps_faster(sequence : str, k : int, L: int, t) -> set:
     
 if __name__ == "__main__":
     # sequence = parse_input_files.get_sequence_from_txt("data/oric_Vibrio_cholerae.txt")
-    sequence = parse_input_files.get_sequence_from_fasta("data/genom_Vibrio_cholerae.fasta")
+    sequence = parse_input_files.get_sequence_from_fasta("../../Data/genom_Vibrio_cholerae.fasta")
     # sequence = "gatcagcataagggtccCTGCAATGCATGACAAGCCTGCAGTtgttttac".upper()
     # print(len(sequence))
     list_of_clumps = find_clumps_faster(sequence, k=9, L=len(sequence), t=120)

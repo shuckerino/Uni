@@ -1,5 +1,7 @@
 base_order = "ACGT"
 
+from General import parse_input_files
+
 def get_immediate_neighbours(pattern: str) -> set[str]:
     '''Get all patterns that have one mismatch at most'''
     result_set = set(pattern) # pattern is neighbour itself
@@ -11,7 +13,7 @@ def get_immediate_neighbours(pattern: str) -> set[str]:
             result_set.add(neighbour)
     return result_set
             
-            
 
 if __name__ == "__main__":
+    
     print(get_immediate_neighbours("A"))

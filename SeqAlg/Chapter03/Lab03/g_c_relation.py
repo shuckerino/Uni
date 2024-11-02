@@ -1,4 +1,4 @@
-import parse_input_files
+import General.parse_input_files as parse_input_files
 import matplotlib.pyplot as plt
 
 # recursive function
@@ -60,15 +60,15 @@ def draw_graph(list_of_y_values: list[list]):
     plt.grid(True)  # Optional: add a grid for better readability
     
 def calculate_vibrio_cholerae():
-    seq = parse_input_files.get_sequence_from_fasta("data/genom_Vibrio_cholerae.fasta")
+    seq = parse_input_files.get_sequence_from_fasta("../../Data/genom_Vibrio_cholerae.fasta")
     return calculate_g_c_diff_iterative(seq)
 
 def calculate_thermotoga_petrophila():
-    seq = parse_input_files.get_sequence_from_fasta("data/genom_Thermotoga_petrophila.fasta")
+    seq = parse_input_files.get_sequence_from_fasta("../../Data/genom_Thermotoga_petrophila.fasta")
     return calculate_g_c_diff_iterative(seq)
     
 def calculate_escherichia_coli():
-    seq = parse_input_files.get_sequence_from_fasta("data/genom_Escherichia_coli.fasta")
+    seq = parse_input_files.get_sequence_from_fasta("../../Data/genom_Escherichia_coli.fasta")
     return calculate_g_c_diff_iterative(seq)
 
 def get_graph_label(i : int) -> str:
