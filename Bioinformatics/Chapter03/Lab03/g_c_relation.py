@@ -1,24 +1,15 @@
 import General.parse_input_files as parse_input_files
 import matplotlib.pyplot as plt
 
-# recursive function
-def calculate_g_c_diff_recursive(sequence : str, values: list) -> list:
-
-    if sequence == "":
-        return values
-    
-    if len(values) > 0:
-        last_diff = values[-1]
-    else:
-        last_diff = 0
-        
-    current_diff = 0
-    if sequence[0] == "C":
-        current_diff -= 1
-    elif sequence[0] == "G":
-        current_diff += 1
-    values.append(last_diff + current_diff) # write the updated value at the end of the list
-    return calculate_g_c_diff_recursive(sequence[1:], values)
+#TODO: not global minimun, fix this (use graphic tips)
+def get_min_pos(diff_array : str) -> int:
+    minPos = 0
+    minArg = 9999
+    for i in range(len(diff_array)):
+        if diff_array[i] < minArg:
+            minPos = i
+            minArg = diff_array[i]
+    return minPos
 
 #iterative function
 def calculate_g_c_diff_iterative(sequence : str) -> list:
@@ -32,16 +23,6 @@ def calculate_g_c_diff_iterative(sequence : str) -> list:
             current_diff += 1
         value_array.append(last_diff + current_diff)
     return value_array[1:] #remove dummy start node 0
-
-# def draw_graph(list_of_y_values : list[list]):
-#     for i in range(len(list_of_y_values)):
-#         plt.figure(i)
-#         y_values = list_of_y_values[i]
-#         x_values = [i for i in range(0, len(y_values))]
-#         plt.plot(x_values, y_values)
-#         plt.xlabel("X-axis data")
-#         plt.ylabel("Y-axis data")
-#         plt.title('multiple plots')
 
 def draw_graph(list_of_y_values: list[list]):
     plt.figure()
@@ -61,7 +42,9 @@ def draw_graph(list_of_y_values: list[list]):
     
 def calculate_vibrio_cholerae():
     seq = parse_input_files.get_sequence_from_fasta("../../Data/genom_Vibrio_cholerae.fasta")
-    return calculate_g_c_diff_iterative(seq)
+    diff_array = calculate_g_c_diff_iterative(seq)
+    print(f"Min of vC is {get_min_pos(diff_array)}")
+    return diff_array
 
 def calculate_thermotoga_petrophila():
     seq = parse_input_files.get_sequence_from_fasta("../../Data/genom_Thermotoga_petrophila.fasta")

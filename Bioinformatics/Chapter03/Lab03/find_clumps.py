@@ -30,6 +30,6 @@ if __name__ == "__main__":
     sequence = parse_input_files.get_sequence_from_fasta("../../Data/genom_Vibrio_cholerae.fasta")
     # sequence = "gatcagcataagggtccCTGCAATGCATGACAAGCCTGCAGTtgttttac".upper()
     # print(len(sequence))
-    list_of_clumps = find_clumps_faster(sequence, k=9, L=len(sequence), t=120)
+    list_of_clumps = find_clumps_faster(sequence, k=9, L=540, t=6) # t = 6, L = len(oriC)
     print(list_of_clumps)
         

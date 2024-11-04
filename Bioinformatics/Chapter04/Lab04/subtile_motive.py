@@ -12,6 +12,8 @@ base_order = "ACGT"
 
 # save in dict kmer to neighhbours
 
+#TODO: doppelter Abstand ist doch erlaubt! also siehe pseudocode, wir müssen doppelte nachbarschaft berechnen
+
 def get_neighbours_with_max_mismatches(pattern : str, d : int) -> set[str]:
     
     def recursive_neighbour(current_pattern : str, left_mismatches : int, index : int):
@@ -102,4 +104,5 @@ if __name__ == "__main__":
         dna_sequences = [seq.strip() for seq in dna_sequences]
         
     all_motives = find_subtle_motive(dna_sequences, 9, 4)
+    print(len(all_motives))
     print(all_motives)
