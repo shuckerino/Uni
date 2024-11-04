@@ -15,17 +15,6 @@ def get_immediate_neighbours(pattern: str) -> set[str]:
             result_set.add(neighbour)
     return result_set
 
-def calculate_hamming_distance(pattern : str, neighbour : str) -> int:
-    '''Compare two patterns of same length and return their hamming distance'''
-    if len(pattern) != len(neighbour):
-        return -1
-    hamming_distance = 0
-    for i in range(0, len(pattern)):
-        if pattern[i] != neighbour[i]:
-            hamming_distance += 1
-            
-    return hamming_distance
-
 def find_common_sequence_with_neighbours(text: str, seq_length : int, include_rev_comp = True) -> tuple[set, int]:
     '''
     Finds the most common sequences of length seq_length in text with neighbours\n
