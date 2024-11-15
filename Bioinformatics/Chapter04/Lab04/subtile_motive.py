@@ -1,4 +1,6 @@
 from collections import defaultdict
+from itertools import chain
+from tqdm import tqdm
 
 base_order = "ACGT"
 
@@ -48,9 +50,12 @@ def find_subtle_motive(list_of_sequences : list[str], k : int, d : int) -> set[s
     
     # find matches in second sequence
     # TODO: check if even 2 sequences
-    second_sequence = list_of_sequences[1]
-    for j in range(len(second_sequence)):
-        current_kmer = second_sequence[j:j+k]
+    second_sequence_dict = find_all_motives_in_single_sequence(list_of_sequences[1], k, d)
+    second_sequence = [neighbours for neighbours in second_sequence_dict.values()]
+    second_sequence = list(chain.from_iterable(second_sequence))
+    # print(f"second seq: {second_sequence}")
+    print("Iterating through second sequence...")
+    for current_kmer in tqdm(second_sequence, "Second sequence progress: "):
             
         # now check if current_kmer has any match
         if current_kmer in dict_of_first_sequence:
@@ -64,9 +69,11 @@ def find_subtle_motive(list_of_sequences : list[str], k : int, d : int) -> set[s
     # iterate through rest of sequences
     for i in range(2, len(list_of_sequences)):
         candidates_also_in_this_sequence = set()
-        current_sequence = list_of_sequences[i]
-        for j in range(len(current_sequence)):
-            current_kmer = current_sequence[j:j+k]
+        current_sequence_dict = find_all_motives_in_single_sequence(list_of_sequences[i], k, d)
+        current_sequence = [neighbours for neighbours in current_sequence_dict.values()]
+        current_sequence = list(chain.from_iterable(current_sequence))
+        print(f"Iterating through sequence {i}...")
+        for current_kmer in current_sequence:
             for kmer in all_subtle_motives_candidates:
                 if current_kmer in dict_of_first_sequence[kmer]:
                     candidates_also_in_this_sequence.add(kmer)
@@ -81,7 +88,7 @@ def find_subtle_motive(list_of_sequences : list[str], k : int, d : int) -> set[s
     return all_subtle_motives_candidates       
     
 
-def find_all_motives_in_single_sequence(sequence: str, k : int, d : int) -> set[str]:
+def find_all_motives_in_single_sequence(sequence: str, k : int, d : int):
     
     kmer_to_neighbours_dict = defaultdict(set)
     for i in range(0, len(sequence) - k + 1):
