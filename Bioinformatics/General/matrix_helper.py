@@ -69,6 +69,14 @@ def get_most_probable_kmer_for_profile_matrix_in_sequence(sequence: str, k: int,
     return best_kmer
 
 
+def get_most_probable_kmer_for_profile_multi_sequence(dna_sequences: list[str], k: int, profile_matrix: list[list[float]]):
+    kmer_list = []
+    for i in range(len(dna_sequences)):
+        kmer_list.append(get_most_probable_kmer_for_profile_matrix_in_sequence(
+            dna_sequences[i], k, profile_matrix))
+    return kmer_list
+
+
 def get_score_of_motif_matrix(motif_matrix: list[str]):
     '''
     This function calculates the score (better "distance") of a motif matrix.
@@ -78,7 +86,6 @@ def get_score_of_motif_matrix(motif_matrix: list[str]):
     score = 0
     k = len(motif_matrix[0])
     t = len(motif_matrix)
-    print(f"t is {t}")
     for i in range(k):
         nucleotid_dict = {"A": 0, "C": 0, "G": 0, "T": 0}
         for j in range(t):
@@ -94,7 +101,7 @@ def get_consensus_for_motifs(motifs: list[str]):
     profile = get_profile_matrix(motifs)
     base_order = "ACGT"
     consensus = ""
-    for i in range(len(profile[0])):
-        index_with_highest_prob = profile[i].index(max(profile[i]))
-        consensus += base_order[index_with_highest_prob]
+    for i in len(profile[0]):
+        index_with_highest_prob = max(profile[i])
+        consensus += base_order.find(index_with_highest_prob)
     return consensus
