@@ -1,16 +1,31 @@
-from General.parse_input_files import get_multiple_sequences_from_txt
 
 
 def play_alignment_game(v: str, w: str):
 
+    score = 0
     v_aligned = ""
     w_aligned = ""
+    v_pointer = 0
+    w_pointer = 0
 
-    longest_len = len(v)
-    if len(w) > longest_len:
-        longest_len = len(w)
+    while v_pointer < len(v) and w_pointer < len(w):
+        if v[v_pointer] == w[w_pointer]:  # match, so plus 1 point
+            score += 1
+            v_aligned += v[v_pointer]
+            w_aligned += w[w_pointer]
+            v_pointer += 1
+            w_pointer += 1
+        else:  # gap or mismatch
+            v_aligned += v[v_pointer]
+            v_pointer += 1
+            w_aligned += "-"
 
-    for i in range(longest_len):
+    return v_aligned, w_aligned, score
 
-        # Check if one is empty / out of bounds
-        if v[i]
+
+if __name__ == "__main__":
+    w = "ATGCATGCTGCC"
+    v = "TGCATGCA"
+    v_aligned, w_aligned, score = play_alignment_game(v, w)
+    print(
+        f"v aligned is {v_aligned}, w aligned is {w_aligned}. score is {score}")
