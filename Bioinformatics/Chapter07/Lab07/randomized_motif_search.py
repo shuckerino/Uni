@@ -24,7 +24,8 @@ def randomized_motif_search(Dna: list[str], k: int):
             return best_motives
 
 
-def get_median_of_results_for_x_iterations(Dna: list[str], k: int, x: int) -> list[int]:
+def get_median_of_results_for_x_iterations(Dna: list[str], k: int,
+                                           x: int) -> list[int]:
     list_of_results = []
     for i in tqdm(range(x), "Progress"):
         motifs = randomized_motif_search(Dna, k)
@@ -40,11 +41,11 @@ if __name__ == "__main__":
     # print(f"Best motifs are {best_motifs}")
 
     # for 20, 200 and 2000 the average and median were around 61, the best about 73
-    num_iterations = 20
+    num_iterations = 200
     result_list = get_median_of_results_for_x_iterations(
         dna_sequences, 15, num_iterations)
     print(
-        f"Best result of result list for {num_iterations} iterations: {max(result_list)}")
+        f"Best result of result list for {num_iterations} iterations: {min(result_list)}")
     print(
         f"Median of result list for {num_iterations} iterations: {result_list[len(result_list) // 2]}")
     average = 0

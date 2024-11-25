@@ -1,7 +1,10 @@
 
 
-def play_alignment_game(v: str, w: str):
+def play_alignment_game_greedy(v: str, w: str):
+    '''
+    Align two sequences in a greedy way
 
+    '''
     score = 0
     v_aligned = ""
     w_aligned = ""
@@ -26,6 +29,6 @@ def play_alignment_game(v: str, w: str):
 if __name__ == "__main__":
     w = "ATGCATGCTGCC"
     v = "TGCATGCA"
-    v_aligned, w_aligned, score = play_alignment_game(v, w)
+    v_aligned, w_aligned, score = play_alignment_game_greedy(v, w)
     print(
         f"v aligned is {v_aligned}, w aligned is {w_aligned}. score is {score}")

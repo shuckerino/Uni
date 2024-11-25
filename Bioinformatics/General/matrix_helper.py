@@ -1,6 +1,6 @@
+import random
 
-
-def get_profile_matrix(motifs: list[str]) -> list[list[float]]:
+def get_profile_matrix(motifs: list[str], pseudo=True) -> list[list[float]]:
     '''
     This function returns a matrix of relative probabilities for each nucleotid in each column.
 
@@ -11,6 +11,9 @@ def get_profile_matrix(motifs: list[str]) -> list[list[float]]:
     List of list of floats, a list of floats representing one column of the profile matrix
 
     '''
+    if len(motifs) == 0:
+        return
+    
     t = len(motifs)
     k = len(motifs[0])
     profile_matrix = []
@@ -22,8 +25,9 @@ def get_profile_matrix(motifs: list[str]) -> list[list[float]]:
             nucelotid = motifs[j][i]
             nucleotid_dict[nucelotid] += 1
         col_list = []
-        for key, value in nucleotid_dict.items():
-            col_list.append(value / t)
+        for _ , value in nucleotid_dict.items():
+            total_col_count = t + (4 * int(pseudo))
+            col_list.append(value + int(pseudo) / total_col_count)
         profile_matrix.append(col_list)
     return profile_matrix
 
@@ -105,3 +109,33 @@ def get_consensus_for_motifs(motifs: list[str]):
         index_with_highest_prob = max(profile[i])
         consensus += base_order.find(index_with_highest_prob)
     return consensus
+
+
+def get_random_weighted_kmer_from_sequence(seq: str, profile: list[list[float]]):
+    k = len(profile)
+    probs = []
+    sum_p = 0.0
+    
+    for i in range(len(seq) - k + 1):
+        current_kmer = seq[i:i+k]
+        p = get_prob_for_kmer(current_kmer, profile)
+        probs.append(p)
+        sum_p += p
+        
+    # normalize to range between 0 and 1
+    kumulativ = 0
+    intervals = [] # saves the boundaries of the intervals
+    for p in probs:
+        kumulativ += p / sum_p
+        intervals.append(kumulativ)
+        
+    random_float = random.random()
+    intervalIdx = -1
+    # determine where random_float is (TODO: REPLACE WITH BINARY SEARCH)
+    for i in range(len(intervals)):
+        if random_float <= intervals[i]:
+            intervalIdx = i
+            break
+        
+    result_kmer = seq[intervalIdx: intervalIdx+k]
+    return result_kmer
