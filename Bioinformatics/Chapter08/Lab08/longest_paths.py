@@ -1,23 +1,23 @@
 
 
 def ManhattanDP(n_rows: int, m_cols: int, down: list[list[int]], right: list[list[int]]) -> int:
-    result_matrix = [[0 for _ in range(m_cols)] for _ in range(n_rows)]
+    result_matrix = [[0 for _ in range(m_cols + 1)] for _ in range(n_rows + 1)]
 
     # go first column downwards
-    for i in range(1, n_rows):
+    for i in range(1, n_rows+1):
         result_matrix[i][0] = result_matrix[i-1][0] + down[i-1][0]
     # go first row rightwards
-    for j in range(1, m_cols):
+    for j in range(1, m_cols+1):
         result_matrix[0][j] = result_matrix[0][j-1] + right[0][j-1]
 
     # now go through the rest of the matrix and always choose the longest path
-    for i in range(1, n_rows):
-        for j in range(1, m_cols):
+    for i in range(1, n_rows+1):
+        for j in range(1, m_cols+1):
             path_from_top = result_matrix[i-1][j] + down[i-1][j]
             path_from_left = result_matrix[i][j-1] + right[i][j-1]
             result_matrix[i][j] = max(path_from_top, path_from_left)
 
-    return result_matrix[n_rows-1][m_cols-1]  # return val of sink
+    return result_matrix[n_rows][m_cols]  # return val of sink
 
 
 if __name__ == "__main__":
