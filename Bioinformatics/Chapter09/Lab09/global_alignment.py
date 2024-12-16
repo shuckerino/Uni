@@ -100,3 +100,9 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+'''
+BLOSUM -> je höher der Wert, desto ähnlicher
+PAM -> je höher der Wert, desto distanter
+
+'''

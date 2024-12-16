@@ -39,3 +39,9 @@ if __name__ == "__main__":
         print(f"right is {m_right}")
         res = ManhattanDP(n, m, m_down, m_right)
         print(f"The longest path is {res}")
+
+
+'''
+2c: weil algorithmus gar nich alignieren will, sondern nur lcs finden will (alles außer match ist 0 punkte, also egal)
+
+'''
