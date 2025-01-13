@@ -20,6 +20,7 @@ def read_sequences(file_path):
     """Reads sequences from a file."""
     with open(file_path, 'r') as file:
         sequences = file.readlines()
+    #return "ATGTTATA", "ATCGTCC"
     return sequences[1].strip(), sequences[2].strip()
 
 def needleman_wunsch(seq1, seq2, blosum62, gap_penalty):
