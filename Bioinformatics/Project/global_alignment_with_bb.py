@@ -1,26 +1,20 @@
 import numpy as np
-from General.hamming_distance import calculate_hamming_distance
 
-def read_blosum62(file_path):
-    """Reads the BLOSUM62 matrix from a file and returns it as a dictionary."""
-    with open(file_path, 'r') as file:
-        lines = file.readlines()
-
-    headers = lines[0].strip().split()
-    blosum62 = {}
-
-    for line in lines[1:]:
-        parts = line.strip().split()
-        row_char = parts[0]
-        scores = list(map(int, parts[1:]))
-        blosum62[row_char] = {headers[i]: scores[i] for i in range(len(headers))}
-
-    return blosum62
+def calculate_hamming_distance(pattern : str, neighbour : str) -> int:
+    '''Compare two patterns of same length and return their hamming distance'''
+    if len(pattern) != len(neighbour):
+        return -1
+    hamming_distance = 0
+    for i in range(0, len(pattern)):
+        if pattern[i] != neighbour[i]:
+            hamming_distance += 1
+            
+    return hamming_distance
 
 def cost(a, b):
     if a == b:
         return 0  # Match
-    return 2  # Mismatch
+    return 1  # Mismatch
 
 def read_sequences(file_path):
     #return "TTGTTATA", "ATCGTCC"
@@ -30,12 +24,14 @@ def read_sequences(file_path):
     return sequences[1].strip(), sequences[2].strip()
 
 def global_alignment_bb(seq1, seq2):
+    num_bb = 0
     n = len(seq1)
     m = len(seq2)
     gap_costs = 1
     hamming_distance = calculate_hamming_distance(seq1, seq2)
-    #threshold = max(n,m)
-    threshold = hamming_distance + 10
+    
+    # 
+    expected_costs = hamming_distance + abs(len(seq1) - len(seq2))
 
     # Initialize the cost and traceback matrix
     cost_matrix = np.zeros((n + 1, m + 1), dtype=float)
@@ -59,13 +55,15 @@ def global_alignment_bb(seq1, seq2):
             delete = cost_matrix[i - 1][j] + gap_costs
             insert = cost_matrix[i][j - 1] + gap_costs
             print(f"Match cost: {match}, Delete cost: {delete}, Insert cost: {insert}")
-            min_costs = min(match, delete, insert)
+            current_costs = min(match, delete, insert)
             
-            if min_costs > threshold:
+            # If the total costs until now are already higher than our expected cost, branch
+            if current_costs > expected_costs:
+                num_bb += 1
                 cost_matrix[i][j] = np.inf
                 traceback_matrix[i][j] = 'B'
             else:
-                cost_matrix[i][j] = min_costs
+                cost_matrix[i][j] = current_costs
                 # Mark cell for backtracking
                 if cost_matrix[i][j] == match:
                     traceback_matrix[i][j] = 'D'  # Diagonal
@@ -78,11 +76,11 @@ def global_alignment_bb(seq1, seq2):
     with open("log.txt", "w") as logfile:
         logfile.write("###################Cost matrix################\n")
         logfile.write(np.array2string(cost_matrix, threshold=np.inf, max_line_width=np.inf))
-        logfile.write("###################Cost matrix################\n")
+        logfile.write("\n###################Cost matrix################\n")
         logfile.write("\n")
-        logfile.write("###################Traceback matrix################\n")
+        logfile.write("\n###################Traceback matrix################\n")
         logfile.write(np.array2string(traceback_matrix, threshold=np.inf, max_line_width=np.inf))
-        logfile.write("###################Traceback matrix################\n")
+        logfile.write("\n###################Traceback matrix################\n")
     
     # If the best found cost is still larger than our threshold, then there is no solution
     if cost_matrix[n][m] == np.inf:
@@ -107,13 +105,13 @@ def global_alignment_bb(seq1, seq2):
             align2 = seq2[j - 1] + align2
             j -= 1
 
+    print(f"Number of branch&bounds: {num_bb}")
     return cost_matrix[n][m], align1, align2
 
 def main():
     #s = "ATGTTATA"
     #t = "ATCGTCC"
     sequences_file = "./input.txt"
-    blosum = read_blosum62("../Data/Lab09/BLOSUM62.txt")
     s, t = read_sequences(sequences_file)
     print(f"s is {s}")
     print(f"t is {t}")
