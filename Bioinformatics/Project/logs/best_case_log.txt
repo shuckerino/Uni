@@ -1,0 +1,53 @@
+###################Heuristics################
+Patterns ACGTACGTACGTACGT and ACGTACGTACGTACGT
+Expected costs: 0
+Actual costs: 0.0
+Number of total iterations: 256
+Number of branch and bounds: 240
+Iterations saved in %: 0.9375
+Number of threshold calculations: 10
+Number of threshold changes: 0
+Found Alignment:
+ACGTACGTACGTACGT
+ACGTACGTACGTACGT
+
+###################Cost matrix################
+[[ 0.  1.  2.  3.  4.  5.  6.  7.  8.  9. 10. 11. 12. 13. 14. 15. 16.]
+ [ 1.  0. inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf]
+ [ 2. inf  0. inf inf inf inf inf inf inf inf inf inf inf inf inf inf]
+ [ 3. inf inf  0. inf inf inf inf inf inf inf inf inf inf inf inf inf]
+ [ 4. inf inf inf  0. inf inf inf inf inf inf inf inf inf inf inf inf]
+ [ 5. inf inf inf inf  0. inf inf inf inf inf inf inf inf inf inf inf]
+ [ 6. inf inf inf inf inf  0. inf inf inf inf inf inf inf inf inf inf]
+ [ 7. inf inf inf inf inf inf  0. inf inf inf inf inf inf inf inf inf]
+ [ 8. inf inf inf inf inf inf inf  0. inf inf inf inf inf inf inf inf]
+ [ 9. inf inf inf inf inf inf inf inf  0. inf inf inf inf inf inf inf]
+ [10. inf inf inf inf inf inf inf inf inf  0. inf inf inf inf inf inf]
+ [11. inf inf inf inf inf inf inf inf inf inf  0. inf inf inf inf inf]
+ [12. inf inf inf inf inf inf inf inf inf inf inf  0. inf inf inf inf]
+ [13. inf inf inf inf inf inf inf inf inf inf inf inf  0. inf inf inf]
+ [14. inf inf inf inf inf inf inf inf inf inf inf inf inf  0. inf inf]
+ [15. inf inf inf inf inf inf inf inf inf inf inf inf inf inf  0. inf]
+ [16. inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf  0.]]
+###################Cost matrix################
+
+
+###################Traceback matrix################
+[['' 'L' 'L' 'L' 'L' 'L' 'L' 'L' 'L' 'L' 'L' 'L' 'L' 'L' 'L' 'L' 'L']
+ ['U' 'D' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'B']
+ ['U' 'B' 'D' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'B']
+ ['U' 'B' 'B' 'D' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'B']
+ ['U' 'B' 'B' 'B' 'D' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'B']
+ ['U' 'B' 'B' 'B' 'B' 'D' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'B']
+ ['U' 'B' 'B' 'B' 'B' 'B' 'D' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'B']
+ ['U' 'B' 'B' 'B' 'B' 'B' 'B' 'D' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'B']
+ ['U' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'D' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'B']
+ ['U' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'D' 'B' 'B' 'B' 'B' 'B' 'B' 'B']
+ ['U' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'D' 'B' 'B' 'B' 'B' 'B' 'B']
+ ['U' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'D' 'B' 'B' 'B' 'B' 'B']
+ ['U' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'D' 'B' 'B' 'B' 'B']
+ ['U' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'D' 'B' 'B' 'B']
+ ['U' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'D' 'B' 'B']
+ ['U' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'D' 'B']
+ ['U' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'B' 'D']]
+###################Traceback matrix################
