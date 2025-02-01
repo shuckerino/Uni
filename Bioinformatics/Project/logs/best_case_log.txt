@@ -5,7 +5,7 @@ Actual costs: 0.0
 Number of total iterations: 256
 Number of branch and bounds: 240
 Iterations saved in %: 0.9375
-Number of threshold calculations: 10
+Number of threshold calculations: 250
 Number of threshold changes: 0
 Found Alignment:
 ACGTACGTACGTACGT

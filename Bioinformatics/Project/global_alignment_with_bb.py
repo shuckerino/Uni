@@ -93,7 +93,7 @@ def global_alignment_bb(seq1, seq2, logfile_path, with_bb = False):
             # Dynamically adjust max costs
             total_cells = n * m
             progress = num_total_iterations / total_cells
-            base_modulo = max(1, total_cells // max(n,m))
+            base_modulo = max(1, total_cells // 100000000000)
             dynamic_modulo = max(1, int(base_modulo * (1 + progress)))
 
             if with_bb and num_total_iterations > 0 and num_total_iterations < (n*m - 5) and num_total_iterations % dynamic_modulo == 0:
