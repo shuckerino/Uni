@@ -22,7 +22,7 @@ Place your input sequences in input.txt. Each case reads two consecutive lines a
 2. **Execute the Script**: 
 Run the script using your python interpreter (recommended is a Python 3 version):
 ```py
-python your_script.py
+python global_alignment_with_bb.py
 ```
 3. **View Results**:
 After execution, alignment results and performance metrics are logged in the `logs/` directory:
@@ -48,6 +48,7 @@ TGCAACGTACGTTGCA
 
 ## Example Output
 
+```
 ####Case: logs/best_case_log####
 s is ACGTTGCAACGTTGCA
 t is TGCAACGTACGTTGCA
@@ -55,6 +56,7 @@ Alignment costs: 7
 Best found alignments:
 -ACGTTGCAACGTTGCA
 TGCAACG-TACGTTGCA
+```
 
 For detailed metrics, check the corresponding log file in the `logs/` folder.
 
