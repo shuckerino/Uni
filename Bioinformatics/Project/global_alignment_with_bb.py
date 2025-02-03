@@ -1,5 +1,5 @@
 import numpy as np
-from timeit import default_timer as timer
+#from timeit import default_timer as timer
 
 # maps line number in input file to path for log file (best case, worst case, average case)
 case_dict = {1 : "logs/best_case_log.txt",
@@ -77,7 +77,14 @@ def global_alignment_bb(seq1, seq2, logfile_path, with_bb = False):
     for j in range(1, m + 1):
         cost_matrix[0][j] = j * gap_costs
         traceback_matrix[0][j] = 'L'  # Left
-
+    
+    # Calculate base modulo (important for dynamic update of our branch and bound heuristic)
+    total_cells = n * m
+    # Define base modulo dependent on input length of sequences
+    #base_modulo = max(1, total_cells // max(n, m))
+    # Define base modulo as static size
+    base_modulo = max(1, total_cells // 100000000000)
+    
     # Fill in the scoring matrix and traceback matrix
     for i in range(1, n + 1):
         for j in range(1, m + 1):
@@ -90,10 +97,8 @@ def global_alignment_bb(seq1, seq2, logfile_path, with_bb = False):
             #print(f"Match cost: {match}, Delete cost: {delete}, Insert cost: {insert}")
             current_costs = min(match, delete, insert)
             
-            # Dynamically adjust max costs
-            total_cells = n * m
+            # Dynamically adjust progress
             progress = num_total_iterations / total_cells
-            base_modulo = max(1, total_cells // 100000000000)
             dynamic_modulo = max(1, int(base_modulo * (1 + progress)))
 
             if with_bb and num_total_iterations > 0 and num_total_iterations < (n*m - 5) and num_total_iterations % dynamic_modulo == 0:
@@ -162,10 +167,10 @@ def main():
         print(f"s is {s}")
         print(f"t is {t}")
         
-        start = timer()
+        #start = timer()  # depends on package
         result_costs, alignment1, alignment2 = global_alignment_bb(s, t, log_path, True)
-        end = timer()
-        print(f"Time took in s: {end - start}\n")
+        #end = timer()
+        #print(f"Time took in s: {end - start}\n")
         print(f"Alignment costs: {result_costs}")
         print(f"Best found alignments:\n")
         print(alignment1)
