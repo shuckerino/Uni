@@ -6,7 +6,6 @@ import junit.framework.*;
 
 import org.junit.Test;
 
-
 public class VierGewinntTest extends TestCase {
 
     @Test
