@@ -1,12 +1,14 @@
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.PrintStream;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Test;
 
-import java.io.*;
+import com.refactor.VierGewinnt;
 
-import junit.framework.*;
-
-import org.junit.Test;
-
-public class VierGewinntTest extends TestCase {
+public class VierGewinntTest {
 
     @Test
 	public void testIsOverRow() throws Exception {
@@ -46,7 +48,8 @@ public class VierGewinntTest extends TestCase {
         final VierGewinnt game = new VierGewinnt(in, new PrintStream(out), new PrintStream(err));
         game.play();
         final String output = out.toString();
-        assertTrue("Incorrect output: " + output,  output.contains(expectedOutcome));
+        //System.out.println("Expected output" + expectedOutcome);
+        assertTrue(output.contains(expectedOutcome), "Incorrect output: " + output);
     }
 
 }
