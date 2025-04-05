@@ -24,4 +24,10 @@
 - Die zu testenden Funktionen so aufbauen, dass diese...
     - eine geringe Kopplung besitzen, sodass die Funktion unabhängig getestet werden kann und nötige Abhängigkeiten der Funktion mitgegeben werden können (besonders wichtig zum Mocken von Objekten, Datenbankverbindungen etc.)
     - eine hohe Kohäsion besitzen, sodass eine einzelne Funktion meiner Anwendung getestet werden kann (und man dann auch herausfinden kann, was der Fehler ist)
+
+## 3. Refactoring und neuer Entwurf
+- Ziel: "Bessere" objektorientierte Lösung erarbeiten und dokumentieren
+
+Änderungen:
+- Erstellen sinnvoller Objekte, die jeweils Methoden und Variablen beinhalten (aktuell alles static-Methoden, schlecht für Testbarkeit später)
     

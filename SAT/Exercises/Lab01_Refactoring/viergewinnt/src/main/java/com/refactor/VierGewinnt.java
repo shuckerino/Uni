@@ -1,34 +1,28 @@
 package com.refactor;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.PrintStream;
 
-/**
- * @author Torben Brodt
- * @version 1.1
- *
- * <p />Spiel: Vier gewinnt
- * <p />Funktioniert mit Java < 1.5
- *
- */
 public class VierGewinnt {
 
-        static String SPIELER; // der aktuelle Spielername -> f�r die Gewinner Ausgabe
+        private Player player1;
+        private Player player2;
+        private IO_Handler io_Handler;
+        private Board gameBoard;
+        private WinChecker winChecker;
 
-        static PrintStream outputStream;
-        static PrintStream errorStream;
-        static java.util.Scanner inputScanner;
 
         // Custom constructor
-        public VierGewinnt(InputStream inputStr, PrintStream outputStr, PrintStream errorStr){
-                outputStream = outputStr;
-                errorStream = errorStr;
-                inputScanner = new java.util.Scanner(inputStr);
+        public VierGewinnt(){
+                        final InputStream in = new ByteArrayInputStream(sb.toString().getBytes());
+        final ByteArrayOutputStream out = new ByteArrayOutputStream();
+        final ByteArrayOutputStream err = new ByteArrayOutputStream();
+        final VierGewinnt game = new VierGewinnt(in, new PrintStream(out), new PrintStream(err));
+                io_Handler = new IO_Handler(null, null, null)
         }
 
-        /**
-         * @param args -> unbenutzt
-         */
         public void play() {
                 int columns, rows, zaehler = 0, eingabe;
                 String player1, player2;
@@ -45,7 +39,7 @@ public class VierGewinnt {
 
                 //Abfragen der Ma�e
                 do {
-                        columns = eingabeInt("Breite des Spielfeldes (mindestens 4)\t: ");
+                        columns = io_Handler.eingabeInt("Breite des Spielfeldes (mindestens 4)\t: ");
                 } while (columns < 4); //Frage erneut, wenn die Breite zu klein gew�hlt wurde
 
                 do {
@@ -73,23 +67,7 @@ public class VierGewinnt {
                 }
         }
 
-        /**
-         * @param text -> Bildschirmausgabe
-         * @return -> Tastatureingabe
-         */
-        static int eingabeInt(String text) {
-                outputStream.print(text);
-                return inputScanner.nextInt();
-        }
-
-        /**
-         * @param text -> Bildschirmausgabe
-         * @return -> Tastatureingabe
-         */
-        static String eingabeString(String text) {
-                outputStream.print(text);
-                return inputScanner.next();
-        }
+       
 
         /**
          * Spalte wird �bergeben und das Feld wird gesetzt
