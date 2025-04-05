@@ -5,9 +5,9 @@ import java.io.PrintStream;
 
 public class IO_Handler {
 
-        static PrintStream outputStream;
-        static PrintStream errorStream;
-        static java.util.Scanner inputScanner;
+        private PrintStream outputStream;
+        private PrintStream errorStream;
+        private java.util.Scanner inputScanner;
 
         // Constructor
         public IO_Handler(InputStream inputStr, PrintStream outputStr, PrintStream errorStr){
@@ -16,21 +16,25 @@ public class IO_Handler {
                 inputScanner = new java.util.Scanner(inputStr);
         }
 
-         /**
-         * @param text -> Bildschirmausgabe
-         * @return -> Tastatureingabe
-         */
-        int eingabeInt(String text) {
+        public int eingabeInt(String text) {
                 outputStream.print(text);
                 return inputScanner.nextInt();
         }
 
-        /**
-         * @param text -> Bildschirmausgabe
-         * @return -> Tastatureingabe
-         */
-        String eingabeString(String text) {
+        public String eingabeString(String text) {
                 outputStream.print(text);
                 return inputScanner.next();
+        }
+
+        public void printError(String errorMsg){
+            errorStream.print(errorMsg);
+        }
+
+        public void printOutput(StringBuffer outputMsgBuffer){
+            outputStream.print(outputMsgBuffer);
+        }
+        
+        public void printOutput(String outputMsg){
+            outputStream.print(outputMsg);
         }
 }
