@@ -30,4 +30,29 @@
 
 Änderungen:
 - Erstellen sinnvoller Objekte, die jeweils Methoden und Variablen beinhalten (aktuell alles static-Methoden, schlecht für Testbarkeit später)
+    - Player (enthält Name und Symbol)
+    - Board (repräsentiert das Spielfeld)
+    - IO_Handler (kümmert sich um alle Ein- und Ausgaben)
+    - WinChecker (kümmert sich um das Überprüfen, ob das Spiel zu Ende ist)
+    - VierGewinnt (repräsentiert das Spiel an sich)
+- Aufteilung in kleinere Funktionen, die logisch zusammenhängen
+- VierGewinnt durch Dependency Injection erweitert, sodass besser testbar
+
+## 4. Entwurfskonzepte
+
+### Kohäsion
+- Beschreibt die inhaltliche Zusammengehörigkeit einer Komponente
+- Kohäsion wurde durch die Refactoring-Maßnahmen erhöht (GUT!), wie beispielsweise an der Klasse Board zu erkennen ist
+    - Die Klasse Board kümmert sich nun ausschließlich um die Verwaltung des Zustands des Spielfeldes
+    - Es hat keinerlei Bezug zu anderen Aufgaben wie Spielermanagement etc.
+
+### Kopplung
+- Beschreibt die Abhängigkeiten zwischen mehrerer Komponenten
+- Kopplung wurde durch die Refactoring-Maßnahmen erhöht (NICHT SO GUT!), wie beispielsweise an der Klasse VierGewinnt zu erkennen ist
+    - Die Klasse ist nun an alle anderen Klassen wie Board, Player oder WinChecker gebunden
+    - Änderungen in einer Klasse kann zu Folge haben, dass ich auch an den anderen Klassen Änderungen vornehmen muss
+
+### Separation of concern
+- Beschreibt Prinzip, dass Design so aufgeteilt werden soll, dass die Schnittmenge der Funktionalitäten so gering wie möglich ist
+- Hat hier noch nicht so gut funktioniert, da beispielsweise print-statements in nahezu allen Klassen vorkommen (auch wenn ausgelagert durch IO_Handler, der Aufruf ist immer noch in allen Klassen vorhanden -> eventuell Lösung durch Aspekt-Orientierte-Programmierung)
     

@@ -27,6 +27,11 @@ public class WinChecker {
             // nach rechts
             go = row + 1;
             while (go < spielfeld.length) {
+
+                    if (column == 7 || go == 7){
+                        //c
+                        System.out.println("Test");
+                    }
                     if (spielfeld[column][go] != zeichen)
                             break;
                     go++;
