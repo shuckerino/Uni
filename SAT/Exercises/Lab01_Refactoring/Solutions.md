@@ -15,7 +15,7 @@
 - Statt des ehemaligen Codes wird nun die Funktion / Methode aufgerufen
 - Vorteile:
     - Höhere Wiederverwendbarkeit von viel genutzten Codeabschnitten
-    - Geringe Abhängigkeiten (Kopplung) -> Implementierung der Funktion kann zentral geändert werden
+    - Höhere Abhängigkeiten (Kopplung) -> Implementierung der Funktion kann zentral geändert werden
     - Höhere Kohäsion -> Code innerhalb einer Funktion ist logisch stark miteinander verbunden
 
 ## 2. Refactoring und Testbarkeit von VierGewinnt
