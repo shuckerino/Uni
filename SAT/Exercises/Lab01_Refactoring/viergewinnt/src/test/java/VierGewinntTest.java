@@ -42,7 +42,7 @@ public class VierGewinntTest {
 
     private void assertOutcome(String expectedOutcome, int width, int height, int... choices) {
         Player p1 = new Player("x", 'o');
-        Player p2 = new Player("y", 'x');
+        Player p2 = new Player("y", '+');
         Board gameBoard = new Board(width, height);
 
         final StringBuilder sb = new StringBuilder();

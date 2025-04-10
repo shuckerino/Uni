@@ -35,7 +35,7 @@ public class VierGewinnt {
 
                 do {
                         player2 = new Player(io_Handler.eingabeString("Name von SpielerIn B mit Zeichen x\t\t\t: "),
-                                        'x');
+                                        '+');
                 } while (player1.getPlayerName().equals(player2.getPlayerName())); // Frage erneut, wenn die
                                                                                    // Spielernamen gleich sind
 

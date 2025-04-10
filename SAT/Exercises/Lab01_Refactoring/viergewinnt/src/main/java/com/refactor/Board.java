@@ -8,7 +8,7 @@ public class Board {
     private char[][] board_array;
 
     // Constructor
-    public Board(int rows, int cols){
+    public Board(int cols, int rows){
         this.rows = rows;
         this.cols = cols;
         this.board_array = new char[rows][cols];
