@@ -15,7 +15,7 @@
 - Statt des ehemaligen Codes wird nun die Funktion / Methode aufgerufen
 - Vorteile:
     - Höhere Wiederverwendbarkeit von viel genutzten Codeabschnitten
-    - Höhere Abhängigkeiten (Kopplung) -> Implementierung der Funktion kann zentral geändert werden
+    - Geringere Kopplung (wenn die neuen Funktionen tatsächlich unabhängig sind) -> Änderungen der Funktionen unäbhängig von den anderen Funktionen
     - Höhere Kohäsion -> Code innerhalb einer Funktion ist logisch stark miteinander verbunden
 
 ## 2. Refactoring und Testbarkeit von VierGewinnt
@@ -24,6 +24,7 @@
 - Die zu testenden Funktionen so aufbauen, dass diese...
     - eine geringe Kopplung besitzen, sodass die Funktion unabhängig getestet werden kann und nötige Abhängigkeiten der Funktion mitgegeben werden können (besonders wichtig zum Mocken von Objekten, Datenbankverbindungen etc.)
     - eine hohe Kohäsion besitzen, sodass eine einzelne Funktion meiner Anwendung getestet werden kann (und man dann auch herausfinden kann, was der Fehler ist)
+    - Stub-Objekte erstellen (Ein- und Ausgabe muss gut nachahmbar sein etc.)
 
 ## 3. Refactoring und neuer Entwurf
 - Ziel: "Bessere" objektorientierte Lösung erarbeiten und dokumentieren
@@ -42,13 +43,13 @@
 
 ### Kohäsion
 - Beschreibt die inhaltliche Zusammengehörigkeit einer Komponente
-- Kohäsion wurde durch die Refactoring-Maßnahmen erhöht (GUT!), wie beispielsweise an der Klasse Board zu erkennen ist
+- Kohäsion wurde durch die Refactoring-Maßnahmen erhöht, wie beispielsweise an der Klasse Board zu erkennen ist
     - Die Klasse Board kümmert sich nun ausschließlich um die Verwaltung des Zustands des Spielfeldes
     - Es hat keinerlei Bezug zu anderen Aufgaben wie Spielermanagement etc.
 
 ### Kopplung
 - Beschreibt die Abhängigkeiten zwischen mehrerer Komponenten
-- Kopplung wurde durch die Refactoring-Maßnahmen erhöht (NICHT SO GUT!), wie beispielsweise an der Klasse VierGewinnt zu erkennen ist
+- Kopplung wurde durch die Refactoring-Maßnahmen erhöht, wie beispielsweise an der Klasse VierGewinnt zu erkennen ist
     - Die Klasse ist nun an alle anderen Klassen wie Board, Player oder WinChecker gebunden
     - Änderungen in einer Klasse kann zu Folge haben, dass ich auch an den anderen Klassen Änderungen vornehmen muss
 
